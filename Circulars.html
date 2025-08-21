@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circulars | Sir C R Reddy College of Pharmaceutical Sciences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a9efb;
+            --secondary-color: #fe5a5a;
+            --accent-color: #24d5e8;
+            --light-color: #f1faee;
+            --dark-color: #101110;
+            --gradient-1: linear-gradient(135deg, #952baf, #457b9d);
+            --gradient-2: linear-gradient(135deg, #e63946, #f3722c);
+            --sidebar-width: 280px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Loading animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Header Login Dropdown */
+        .header-login {
+            position: relative;
+        }
+        
+        .login-dropdown-btn {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-dropdown-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+        
+        .login-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .login-dropdown-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .login-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .login-dropdown-item:hover {
+            background: #f8f9fa;
+            color: var(--secondary-color);
+            padding-left: 20px;
+        }
+        
+        .login-dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--gradient-1);
+            color: white;
+            z-index: 999;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 100px;
+        }
+        .nav-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-menu a i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+        .nav-menu a::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .nav-menu a:hover::before,
+        .nav-menu a.active::before {
+            transform: scaleY(1);
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 35px;
+        }
+        .login-section {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .login-btn {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .login-btn.student {
+            border-left: 3px solid var(--secondary-color);
+        }
+        .login-btn.parent {
+            border-left: 3px solid #2a9d8f;
+        }
+        .login-btn.library {
+            border-left: 3px solid #577590;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            padding-top: 100px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://certificationacademy.com/wp-content/uploads/curriculum-review.jpeg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .page-header p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-title {
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--dark-color);
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 30px;
+            background: #f1f1f1;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+        .search-box {
+            margin-left: auto;
+            position: relative;
+            flex: 1;
+            max-width: 300px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(36, 213, 232, 0.2);
+        }
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        /* Circulars Table */
+        .circulars-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .table-header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+        .view-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .view-btn.active,
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Table View */
+        .table-view {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-view th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-color);
+            border-bottom: 2px solid #eee;
+        }
+        .table-view td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .table-view tr:hover {
+            background: #f8f9fa;
+        }
+        .circular-date {
+            font-weight: 600;
+            color: var(--accent-color);
+            white-space: nowrap;
+        }
+        .circular-title {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        .circular-category {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .category-academic {
+            background: rgba(36, 213, 232, 0.2);
+            color: #0a8ca8;
+        }
+        .category-event {
+            background: rgba(254, 90, 90, 0.2);
+            color: #d63447;
+        }
+        .category-admin {
+            background: rgba(149, 43, 175, 0.2);
+            color: #8e2aa5;
+        }
+        .circular-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .view-btn-action {
+            background: rgba(36, 213, 232, 0.1);
+            color: var(--accent-color);
+        }
+        .view-btn-action:hover {
+            background: rgba(36, 213, 232, 0.2);
+        }
+        .download-btn {
+            background: rgba(10, 158, 251, 0.1);
+            color: var(--primary-color);
+        }
+        .download-btn:hover {
+            background: rgba(10, 158, 251, 0.2);
+        }
+        
+        /* Card View */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .circular-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent-color);
+        }
+        .circular-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-date {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .card-category {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        .card-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .no-results i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        .no-results h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            color: var(--dark-color);
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        .footer-section p, .footer-section li {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content,
+            footer {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 36px;
+            }
+            
+            .header-login {
+                display: none;
+            }
+            
+            .search-box {
+                max-width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 28px;
+            }
+            
+            .page-header p {
+                font-size: 16px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .table-view {
+                font-size: 14px;
+            }
+            
+            .table-view th,
+            .table-view td {
+                padding: 10px;
+            }
+            
+            .circular-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading animation -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr0c7HRkWsP4itqkA1pJmAsL79cvxdkyta0w&s" alt="College Logo">
+                <div class="logo-text">
+                    <h1>Sir C R Reddy College</h1>
+                    <p>of Pharmaceutical Sciences, Eluru</p>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> +91 8812 234 567</p>
+                <p><i class="fas fa-envelope"></i> info@crreddypharmacy.edu.in</p>
+                
+                <!-- Header Login Dropdown -->
+                <div class="header-login">
+                    <button class="login-dropdown-btn" id="headerLoginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="login-dropdown" id="headerLoginDropdown">
+                        <a href="studentrecord.html" class="login-dropdown-item">
+                            <i class="fas fa-user-graduate"></i> Student Login
+                        </a>
+                        <a href="studentrecord.html" class="login-dropdown-item">
+                            <i class="fas fa-user-friends"></i> Parent Login
+                        </a>
+                        <a href="libraray.html" class="login-dropdown-item">
+                            <i class="fas fa-book"></i> Library Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+            <li><a href="faculty.html"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
+            <li><a href="circulars.html" class="active"><i class="fas fa-calendar"></i> Circulars</a></li>
+            <li><a href="admissions.html"><i class="fas fa-user-plus"></i> Admissions</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                  <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results Portal</a></li>
+        </ul>
+        
+        <div class="login-section">
+            <h3 style="margin-bottom: 15px; font-size: 16px;">Quick Login</h3>
+            <div class="login-buttons">
+               iv class="login-buttons">
+                <button class="login-btn student">
+                    <a href="studentrecord.html" style="text-decoration: none; color: white;"><i class="fas fa-user-graduate"></i> Student Login </a>
+                </button>
+                <button class="login-btn parent">
+                  <a href="studentrecord.html" style="text-decoration: none; color: white;"> <i class="fas fa-user-friends"></i> Parent Login</a> 
+                </button>
+                <button class="login-btn library">
+                   <a href="libraray.html" style="text-decoration: none; color: white;"> <i class="fas fa-book"></i> Library Login</a> 
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container">
+                <h1>Circulars & Notices</h1>
+                <p>Stay updated with the latest announcements, circulars, and notices from Sir C R Reddy College of Pharmaceutical Sciences</p>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <span class="filter-title">Filter by:</span>
+                <button class="filter-btn active" data-filter="all">All Circulars</button>
+                <button class="filter-btn" data-filter="academic">Academic</button>
+                <button class="filter-btn" data-filter="event">Events</button>
+                <button class="filter-btn" data-filter="admin">Administrative</button>
+                
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search circulars...">
+                    <button type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <!-- Circulars Table -->
+            <div class="circulars-table">
+                <div class="table-header">
+                    <div class="table-title">College Circulars</div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" id="tableViewBtn"><i class="fas fa-list"></i></button>
+                        <button class="view-btn" id="cardViewBtn"><i class="fas fa-th-large"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Table View -->
+                <div id="tableView">
+                    <table class="table-view">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr data-category="academic">
+                                <td class="circular-date">15 Jul 2023</td>
+                                <td class="circular-title">Orientation Program for Newly Admitted Students</td>
+                                <td><span class="circular-category category-academic">Academic</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="event">
+                                <td class="circular-date">12 Jul 2023</td>
+                                <td class="circular-title">National Conference on Pharmaceutical Sciences</td>
+                                <td><span class="circular-category category-event">Event</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="admin">
+                                <td class="circular-date">10 Jul 2023</td>
+                                <td class="circular-title">Examination Fee Payment Notification</td>
+                                <td><span class="circular-category category-admin">Administrative</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="academic">
+                                <td class="circular-date">08 Jul 2023</td>
+                                <td class="circular-title">College Ranked 15th in NIRF 2023</td>
+                                <td><span class="circular-category category-academic">Academic</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="academic">
+                                <td class="circular-date">05 Jul 2023</td>
+                                <td class="circular-title">MoU Signed with Leading Pharmaceutical Company</td>
+                                <td><span class="circular-category category-academic">Academic</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="admin">
+                                <td class="circular-date">03 Jul 2023</td>
+                                <td class="circular-title">Faculty Achievement Award Notification</td>
+                                <td><span class="circular-category category-admin">Administrative</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="event">
+                                <td class="circular-date">01 Jul 2023</td>
+                                <td class="circular-title">Inauguration of New Analytical Laboratory</td>
+                                <td><span class="circular-category category-event">Event</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="academic">
+                                <td class="circular-date">28 Jun 2023</td>
+                                <td class="circular-title">Students Win National Pharmacy Quiz Competition</td>
+                                <td><span class="circular-category category-academic">Academic</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="event">
+                                <td class="circular-date">25 Jun 2023</td>
+                                <td class="circular-title">Guest Lecture on Recent Advances in Drug Delivery</td>
+                                <td><span class="circular-category category-event">Event</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                            <tr data-category="admin">
+                                <td class="circular-date">22 Jun 2023</td>
+                                <td class="circular-title">Holiday Notification for Independence Day</td>
+                                <td><span class="circular-category category-admin">Administrative</span></td>
+                                <td class="circular-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Card View -->
+                <div id="cardView" style="display: none;">
+                    <div class="cards-container" id="cardsContainer">
+                        <div class="circular-card" data-category="academic">
+                            <div class="card-header">
+                                <div class="card-date">15 Jul 2023</div>
+                                <div class="card-category category-academic">Academic</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Orientation Program for Newly Admitted Students</h3>
+                                <p class="card-description">Orientation program for newly admitted students scheduled on July 15, 2023 at the college auditorium.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="event">
+                            <div class="card-header">
+                                <div class="card-date">12 Jul 2023</div>
+                                <div class="card-category category-event">Event</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">National Conference on Pharmaceutical Sciences</h3>
+                                <p class="card-description">National Conference on Pharmaceutical Sciences to be held on 15th August 2023. All faculty and students are requested to participate.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="admin">
+                            <div class="card-header">
+                                <div class="card-date">10 Jul 2023</div>
+                                <div class="card-category category-admin">Administrative</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Examination Fee Payment Notification</h3>
+                                <p class="card-description">All students are informed to pay their examination fees for the upcoming semester examinations before the due date.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="academic">
+                            <div class="card-header">
+                                <div class="card-date">08 Jul 2023</div>
+                                <div class="card-category category-academic">Academic</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">College Ranked 15th in NIRF 2023</h3>
+                                <p class="card-description">We are proud to announce that our college has been ranked 15th in the Top Pharmacy Colleges in India by NIRF 2023.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="academic">
+                            <div class="card-header">
+                                <div class="card-date">05 Jul 2023</div>
+                                <div class="card-category category-academic">Academic</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">MoU Signed with Leading Pharmaceutical Company</h3>
+                                <p class="card-description">MoU signed with leading pharmaceutical company for research collaboration and student internships.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="admin">
+                            <div class="card-header">
+                                <div class="card-date">03 Jul 2023</div>
+                                <div class="card-category category-admin">Administrative</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Faculty Achievement Award Notification</h3>
+                                <p class="card-description">Faculty member Dr. Ramesh Kumar awarded best researcher in Pharmacology by the Indian Pharmacy Council.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="event">
+                            <div class="card-header">
+                                <div class="card-date">01 Jul 2023</div>
+                                <div class="card-category category-event">Event</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Inauguration of New Analytical Laboratory</h3>
+                                <p class="card-description">New state-of-the-art analytical laboratory inaugurated by the Dean. All faculty and students are invited.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="academic">
+                            <div class="card-header">
+                                <div class="card-date">28 Jun 2023</div>
+                                <div class="card-category category-academic">Academic</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Students Win National Pharmacy Quiz Competition</h3>
+                                <p class="card-description">Our students secured first place in the All India Pharmacy Quiz Competition held at New Delhi.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="event">
+                            <div class="card-header">
+                                <div class="card-date">25 Jun 2023</div>
+                                <div class="card-category category-event">Event</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Guest Lecture on Recent Advances in Drug Delivery</h3>
+                                <p class="card-description">Guest lecture on "Recent Advances in Drug Delivery Systems" by Prof. Sharma on July 5th, 2023.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="circular-card" data-category="admin">
+                            <div class="card-header">
+                                <div class="card-date">22 Jun 2023</div>
+                                <div class="card-category category-admin">Administrative</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Holiday Notification for Independence Day</h3>
+                                <p class="card-description">College will remain closed on 15th August 2023 on account of Independence Day. Regular classes will resume from 16th August.</p>
+                                <div class="card-actions">
+                                    <button class="action-btn view-btn-action"><i class="fas fa-eye"></i> View</button>
+                                    <button class="action-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No Results Message -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No circulars found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Sir C R Reddy College of Pharmaceutical Sciences is a premier institution dedicated to excellence in pharmaceutical education and research.</p>
+                <p>Established in 1995, we have been nurturing skilled pharmacists who contribute significantly to the healthcare sector.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="admissions.html">Admissions</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                    <li><a href="research.html">Research</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Eluru, Andhra Pradesh 534007</p>
+                <p><i class="fas fa-phone"></i> +91 8812-234567</p>
+                <p><i class="fas fa-envelope"></i> info@scrreddypharmacy.edu.in</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Sir C R Reddy College of Pharmaceutical Sciences. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', () => {
+            // Hide loader
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 500);
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // Adjust main content and footer margin when sidebar is toggled
+            if (window.innerWidth <= 992) {
+                if (sidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden'; // Prevent body scroll when sidebar is open
+                } else {
+                    document.body.style.overflow = ''; // Restore body scroll
+                }
+            }
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                document.body.style.overflow = ''; // Restore body scroll
+            }
+        });
+        
+        // Header login dropdown functionality
+        const headerLoginBtn = document.getElementById('headerLoginBtn');
+        const headerLoginDropdown = document.getElementById('headerLoginDropdown');
+        
+        headerLoginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            headerLoginDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            headerLoginDropdown.classList.remove('active');
+        });
+        
+        // Prevent dropdown from closing when clicking inside
+        headerLoginDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // // Login dropdown item functionality
+        // document.querySelectorAll('.login-dropdown-item').forEach(item => {
+        //     item.addEventListener('click', function(e) {
+        //         e.preventDefault();
+        //         const loginType = this.textContent.trim();
+        //         alert(`${loginType} portal will be implemented soon.`);
+                
+        //         // Close dropdown
+        //         headerLoginDropdown.classList.remove('active');
+        //     });
+        // });
+        
+        // // Login button functionality
+        // document.querySelectorAll('.login-btn').forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         const loginType = this.textContent.trim();
+        //         alert(`${loginType} portal will be implemented soon.`);
+        //     });
+        // });
+        
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('tableBody');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const noResults = document.getElementById('noResults');
+        
+        // Get all table rows and cards
+        const tableRows = tableBody.querySelectorAll('tr');
+        const cards = cardsContainer.querySelectorAll('.circular-card');
+        
+        // Function to filter circulars
+        function filterCirculars() {
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            const searchTerm = searchInput.value.toLowerCase();
+            let hasResults = false;
+            
+            // Filter table rows
+            tableRows.forEach(row => {
+                const category = row.getAttribute('data-category');
+                const title = row.querySelector('.circular-title').textContent.toLowerCase();
+                
+                const matchesCategory = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = title.includes(searchTerm);
+                
+                if (matchesCategory && matchesSearch) {
+                    row.style.display = '';
+                    hasResults = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Filter cards
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const description = card.querySelector('.card-description').textContent.toLowerCase();
+                
+                const matchesCategory = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = '';
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            noResults.style.display = hasResults ? 'none' : 'block';
+        }
+        
+        // Add event listeners to filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Apply filters
+                filterCirculars();
+            });
+        });
+        
+        // Add event listener to search input
+        searchInput.addEventListener('input', filterCirculars);
+        
+        // View toggle functionality
+        const tableViewBtn = document.getElementById('tableViewBtn');
+        const cardViewBtn = document.getElementById('cardViewBtn');
+        const tableView = document.getElementById('tableView');
+        const cardView = document.getElementById('cardView');
+        
+        tableViewBtn.addEventListener('click', function() {
+            tableViewBtn.classList.add('active');
+            cardViewBtn.classList.remove('active');
+            tableView.style.display = 'block';
+            cardView.style.display = 'none';
+        });
+        
+        cardViewBtn.addEventListener('click', function() {
+            cardViewBtn.classList.add('active');
+            tableViewBtn.classList.remove('active');
+            cardView.style.display = 'block';
+            tableView.style.display = 'none';
+        });
+        
+        // Back to top functionality
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script> 
+</body>
+</html>

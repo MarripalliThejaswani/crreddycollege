@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sir C R Reddy College of Pharmaceutical Sciences | Eluru</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a9efb;
+            --secondary-color: #fe5a5a;
+            --accent-color: #24d5e8;
+            --light-color: #f1faee;
+            --dark-color: #101110;
+            --gradient-1: linear-gradient(135deg, #952baf, #457b9d);
+            --gradient-2: linear-gradient(135deg, #e63946, #f3722c);
+            --sidebar-width: 280px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Particle canvas for hero background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        /* Loading animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Header Login Dropdown */
+        .header-login {
+            position: relative;
+        }
+        
+        .login-dropdown-btn {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-dropdown-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+        
+        .login-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .login-dropdown-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .login-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .login-dropdown-item:hover {
+            background: #f8f9fa;
+            color: var(--secondary-color);
+            padding-left: 20px;
+        }
+        
+        .login-dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--gradient-1);
+            color: white;
+            z-index: 999;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 100px;
+        }
+        /*.sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+       /* .logo-icon {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+            margin: 0 auto;
+        }
+        .logo-icon:hover {
+            transform: rotate(360deg);
+        }*/
+        /*.logo-icon i {
+            font-size: 40px;
+            color: var(--primary-color);
+        }*/
+        .nav-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-menu a i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+        .nav-menu a::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .nav-menu a:hover::before,
+        .nav-menu a.active::before {
+            transform: scaleY(1);
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 35px;
+        }
+        .login-section {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .login-btn {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .login-btn.student {
+            border-left: 3px solid var(--secondary-color);
+        }
+        .login-btn.parent {
+            border-left: 3px solid #2a9d8f;
+        }
+        .login-btn.library {
+            border-left: 3px solid #577590;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            padding-top: 100px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        /* Announcement Ticker */
+        .announcement-ticker {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .ticker-title {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 2;
+        }
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+            padding-left: 200px;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item {
+            padding-right: 100px;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-item i {
+            margin-right: 10px;
+            color: #f1faee;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://bucket.material-tailwind.com/magic-ai/3f24080b2fa162ec33033ec532f2d727ad79b2ca73ccb0f0ab67f99d2e56c096.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 0 40px;
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient-2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .cta-button:hover::before {
+            transform: translateX(100%);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero Icons */
+        .hero-icons {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 3;
+        }
+        
+        .hero-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .hero-icon:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero Login Dropdown */
+        .hero-login-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-login-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .hero-login-dropdown-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .hero-login-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .hero-login-dropdown-item:hover {
+            background: #f8f9fa;
+            color: var(--secondary-color);
+            padding-left: 20px;
+        }
+        
+        .hero-login-dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        /* Section Styles */
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            position: relative;
+        }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.5s ease;
+        }
+        .section:hover .section-title::after {
+            width: 100px;
+        }
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--accent-color);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .card-icon {
+            background: var(--gradient-1);
+            color: white;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .card:hover .card-icon {
+            transform: scale(1.05);
+        }
+        .card-icon i {
+            font-size: 40px;
+            transition: transform 0.5s ease;
+        }
+        .card:hover .card-icon i {
+            transform: scale(1.2);
+        }
+        .card-content {
+            padding: 20px;
+            position: relative;
+        }
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        .card-text {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .card-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .card-link:hover {
+            color: var(--primary-color);
+        }
+        .card-link i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        .card-link:hover i {
+            transform: translateX(5px);
+        }
+        /* Latest Updates */
+        .updates-container {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #eee;
+            border-radius: 10px;
+        }
+        .updates-list {
+            animation: autoScroll 20s linear infinite;
+        }
+        @keyframes autoScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        .update-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .update-item:hover {
+            background: #f9f9f9;
+        }
+        .update-item:last-child {
+            border-bottom: none;
+        }
+        .update-date {
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+        .update-text {
+            flex: 1;
+        }
+        /* Stats Section */
+        .stats-section {
+            background: var(--gradient-1);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin: 50px 0;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        .stat-item {
+            padding: 20px;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            transition: all 1s ease;
+        }
+        .stat-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        /* Faculty Profiles Section */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .faculty-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .faculty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .faculty-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 4px solid var(--accent-color);
+            object-fit: cover;
+        }
+        .faculty-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        .faculty-position {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .faculty-dept {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .faculty-bio {
+            padding: 0 20px 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .faculty-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 0 20px;
+        }
+        .faculty-social a {
+            color: var(--accent-color);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .faculty-social a:hover {
+            color: var(--secondary-color);
+            transform: scale(1.2);
+        }
+        
+        /* Research Publications Section */
+        .publications-container {
+            margin-top: 30px;
+        }
+        .publication-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+        .publication-item:hover {
+            background: #f9f9f9;
+        }
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+        .publication-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        .publication-authors {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .publication-journal {
+            font-style: italic;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        .publication-year {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* Student Achievements Section */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .achievement-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .achievement-content {
+            padding: 20px;
+        }
+        .achievement-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        .achievement-student {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .achievement-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .achievement-date {
+            color: #888;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        .footer-section p, .footer-section li {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content,
+            footer {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .ticker-content {
+                padding-left: 150px;
+            }
+            
+            .ticker-title {
+                left: 20px;
+                font-size: 14px;
+                padding: 3px 10px;
+            }
+            .hero {
+                background-attachment: scroll;
+            }
+            
+            .hero-icons {
+                right: 15px;
+            }
+            
+            .header-login {
+                display: none;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .footer-content {
+                padding: 0 15px;
+            }
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .hero-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading animation -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr0c7HRkWsP4itqkA1pJmAsL79cvxdkyta0w&s" alt="College Logo">
+                <div class="logo-text">
+                    <h1>Sir C R Reddy College</h1>
+                    <p>of Pharmaceutical Sciences, Eluru</p>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> +91 8812 234 567</p>
+                <p><i class="fas fa-envelope"></i> info@crreddypharmacy.edu.in</p>
+                
+                <!-- Header Login Dropdown -->
+                <div class="header-login">
+                    <button class="login-dropdown-btn" id="headerLoginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="login-dropdown" id="headerLoginDropdown">
+                        <a href="studentrecord.html" class="login-dropdown-item">
+                            <i class="fas fa-user-graduate"></i> Student Login
+                        </a>
+                        <a href="studentrecord.html" class="login-dropdown-item">
+                            <i class="fas fa-user-friends"></i> Parent Login
+                        </a>
+                        <a href="libraray.html" class="login-dropdown-item">
+                            <i class="fas fa-book"></i> Library Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+     <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon">
+            </div>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+            <li><a href="faculty.html"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
+            <li><a href="admission.html"><i class="fas fa-book"></i> Admission</a></li>
+            <li><a href="Circulars.html"><i class="fas fa-calendar"></i>Circulars</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results Portal</a></li>
+        </ul>
+        
+        <div class="login-section">
+            <h3 style="margin-bottom: 15px; font-size: 16px;">Quick Login</h3>
+            <div class="login-buttons">
+                <button class="login-btn student">
+                    <a href="studentrecord.html" style="text-decoration: none; color: white;"><i class="fas fa-user-graduate"></i> Student Login </a>
+                </button>
+                <button class="login-btn parent">
+                  <a href="studentrecord.html" style="text-decoration: none; color: white;"> <i class="fas fa-user-friends"></i> Parent Login</a> 
+                </button>
+                <button class="login-btn library">
+                   <a href="libraray.html" style="text-decoration: none; color: white;"> <i class="fas fa-book"></i> Library Login</a> 
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Announcement Ticker -->
+        <div class="announcement-ticker">
+            <div class="ticker-title">Latest Announcements</div>
+            <div class="ticker-content">
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Admissions open for B.Pharm and M.Pharm programs for the academic year 2023-24</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> National Conference on Pharmaceutical Sciences to be held on 15th August 2023</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Results for B.Pharm 2nd Year 4th Semester examinations are declared</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Workshop on "Recent Trends in Drug Discovery" on 20th July 2023</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Admissions open for B.Pharm and M.Pharm programs for the academic year 2023-24</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> National Conference on Pharmaceutical Sciences to be held on 15th August 2023</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Results for B.Pharm 2nd Year 4th Semester examinations are declared</div>
+                <div class="ticker-item"><i class="fas fa-bullhorn"></i> Workshop on "Recent Trends in Drug Discovery" on 20th July 2023</div>
+            </div>
+        </div>
+        
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div id="particles-js"></div>
+            <div class="hero-content">
+                <h2>Excellence in Pharmaceutical Education</h2>
+                <p>Nurturing future pharmacists with cutting-edge knowledge and skills</p>
+                <a href="#admissions" class="cta-button">Apply Now</a>
+            </div>
+            
+            <!-- Hero Icons -->
+            <div class="hero-icons">
+                <div class="hero-icon" id="resultIcon" title="Results">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="hero-icon" id="loginIcon" title="Login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    
+                    <!-- Hero Login Dropdown -->
+                    <div class="hero-login-dropdown" id="heroLoginDropdown">
+                        <a href="#" class="hero-login-dropdown-item">
+                            <i class="fas fa-user-graduate"></i> Student Login
+                        </a>
+                        <a href="#" class="hero-login-dropdown-item">
+                            <i class="fas fa-user-friends"></i> Parent Login
+                        </a>
+                        <a href="#" class="hero-login-dropdown-item">
+                            <i class="fas fa-book"></i> Library Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number" id="students-count">0</div>
+                    <div class="stat-label">Students</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="courses-count">0</div>
+                    <div class="stat-label">Courses</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="faculty-count">0</div>
+                    <div class="stat-label">Faculty</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="years-count">0</div>
+                    <div class="stat-label">Years of Excellence</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Result Portal Section -->
+            <section id="results" class="section">
+                <h2 class="section-title">Result Portal</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Examination Results</h3>
+                            <p class="card-text">Access your semester examination results online with secure login.</p>
+                            <a href="#" class="card-link">View Results <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Grade Cards</h3>
+                            <p class="card-text">Download your semester grade cards and consolidated mark sheets.</p>
+                            <a href="#" class="card-link">Download Grade Cards <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Academic Certificates</h3>
+                            <p class="card-text">Request and download various academic certificates online.</p>
+                            <a href="#" class="card-link">Get Certificates <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Circulars Section -->
+            <section id="circulars" class="section">
+                <h2 class="section-title">Circulars</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Academic Circulars</h3>
+                            <p class="card-text">Important notifications regarding examinations, schedules, and academic activities.</p>
+                            <a href="#" class="card-link">View Circulars <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Event Circulars</h3>
+                            <p class="card-text">Information about upcoming events, workshops, seminars, and conferences.</p>
+                            <a href="#" class="card-link">View Events <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Administrative Circulars</h3>
+                            <p class="card-text">Notices regarding fee payments, holidays, and administrative procedures.</p>
+                            <a href="#" class="card-link">View Notices <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Admissions Section -->
+            <section id="admissions" class="section">
+                <h2 class="section-title">Admissions</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">B.Pharm Program</h3>
+                            <p class="card-text">4-year undergraduate program in Pharmacy with industry-aligned curriculum.</p>
+                            <a href="#" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">M.Pharm Program</h3>
+                            <p class="card-text">2-year postgraduate program with specializations in Pharmaceutics, Pharmacology, and more.</p>
+                            <a href="#" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Ph.D Program</h3>
+                            <p class="card-text">Research-oriented doctoral program in various pharmaceutical disciplines.</p>
+                            <a href="#" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Faculty Profiles Section -->
+            <section id="faculty" class="section">
+                <h2 class="section-title">Faculty Profiles</h2>
+                <div class="faculty-grid">
+                    <div class="faculty-card">
+                        <img src="https://t4.ftcdn.net/jpg/03/96/16/79/360_F_396167959_aAhZiGlJoeXOBHivMvaO0Aloxvhg3eVT.jpg" alt="Dr. Ramesh Kumar" class="faculty-img">
+                        <h3 class="faculty-name">Dr. Ramesh Kumar</h3>
+                        <p class="faculty-position">Professor & Head</p>
+                        <p class="faculty-dept">Department of Pharmacology</p>
+                        <p class="faculty-bio">20+ years of teaching and research experience. Specialized in Neuropharmacology and Toxicology.</p>
+                        <div class="faculty-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdDHkF8fMCo4Kb1i0dT4l0VOoel6y2xcyxTz60_rvjBQtmNiamILgtvKo-0PeX1L-I12w&usqp=CAU" alt="Dr. Priya Sharma" class="faculty-img">
+                        <h3 class="faculty-name">Dr. Priya Sharma</h3>
+                        <p class="faculty-position">Associate Professor</p>
+                        <p class="faculty-dept">Department of Pharmaceutics</p>
+                        <p class="faculty-bio">Expert in Novel Drug Delivery Systems. Published 50+ research papers in international journals.</p>
+                        <div class="faculty-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="https://www.shutterstock.com/image-photo/handsome-happy-african-american-bearded-600nw-2460702995.jpg" alt="Dr. Suresh Reddy" class="faculty-img">
+                        <h3 class="faculty-name">Dr. Suresh Reddy</h3>
+                        <p class="faculty-position">Professor</p>
+                        <p class="faculty-dept">Department of Pharmaceutical Chemistry</p>
+                        <p class="faculty-bio">Specialized in Medicinal Chemistry and Drug Design. Recipient of Young Scientist Award.</p>
+                        <div class="faculty-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="faculty-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQitWKXOGriZKh7u3b1VtWjNj8Ib7ld9rj_oA&s" alt="Dr. Anjali Patel" class="faculty-img">
+                        <h3 class="faculty-name">Dr. Anjali Patel</h3>
+                        <p class="faculty-position">Assistant Professor</p>
+                        <p class="faculty-dept">Department of Pharmacognosy</p>
+                        <p class="faculty-bio">Expert in Natural Product Research. Working on isolation and characterization of phytoconstituents.</p>
+                        <div class="faculty-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Research Publications Section -->
+            <section id="research" class="section">
+                <h2 class="section-title">Research Publications</h2>
+                <div class="publications-container">
+                    <div class="publication-item">
+                        <h3 class="publication-title">Novel drug delivery system for targeted cancer therapy using nanoparticles</h3>
+                        <p class="publication-authors">Dr. Priya Sharma, Dr. Ramesh Kumar, V. Suresh, M. Anjali</p>
+                        <p class="publication-journal">International Journal of Pharmaceutics, Vol. 45, Issue 2</p>
+                        <p class="publication-year">2023</p>
+                    </div>
+                    <div class="publication-item">
+                        <h3 class="publication-title">Phytochemical screening and pharmacological evaluation of medicinal plants used in traditional medicine</h3>
+                        <p class="publication-authors">Dr. Anjali Patel, S. Reddy, K. Kumar, P. Sharma</p>
+                        <p class="publication-journal">Journal of Ethnopharmacology, Vol. 287, Issue 1</p>
+                        <p class="publication-year">2022</p>
+                    </div>
+                    <div class="publication-item">
+                        <h3 class="publication-title">Synthesis and evaluation of new benzimidazole derivatives as potential antimicrobial agents</h3>
+                        <p class="publication-authors">Dr. Suresh Reddy, R. Kumar, A. Patel, P. Sharma</p>
+                        <p class="publication-journal">European Journal of Medicinal Chemistry, Vol. 215, Issue 3</p>
+                        <p class="publication-year">2021</p>
+                    </div>
+                    <div class="publication-item">
+                        <h3 class="publication-title">Neuroprotective effects of novel synthetic compounds against Alzheimer's disease</h3>
+                        <p class="publication-authors">Dr. Ramesh Kumar, P. Sharma, S. Reddy, A. Patel</p>
+                        <p class="publication-journal">Neurochemistry International, Vol. 142, Issue 4</p>
+                        <p class="publication-year">2020</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Student Achievements Section -->
+            <section id="achievements" class="section">
+                <h2 class="section-title">Student Achievements</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">First Prize in National Pharmacy Quiz Competition</h3>
+                            <p class="achievement-student">K. Vamsi Krishna & T. Ananya</p>
+                            <p class="achievement-description">Our students secured first place in the All India Pharmacy Quiz Competition held at New Delhi.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> June 28, 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">Best Research Paper Award</h3>
+                            <p class="achievement-student">M. Srinivas</p>
+                            <p class="achievement-description">Awarded for the research paper on "Novel Drug Delivery Systems" at International Conference.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> May 15, 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">Gold Medal in University Examinations</h3>
+                            <p class="achievement-student">P. Divya</p>
+                            <p class="achievement-description">Secured gold medal for securing highest marks in B.Pharm final year university examinations.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> April 10, 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">Selected for National Level Internship</h3>
+                            <p class="achievement-student">R. Rajesh & S. Kavya</p>
+                            <p class="achievement-description">Selected for prestigious internship program at leading pharmaceutical company.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> March 5, 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">Won Inter-College Sports Championship</h3>
+                            <p class="achievement-student">College Cricket Team</p>
+                            <p class="achievement-description">Our college cricket team won the Inter-College T20 Cricket Championship.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> February 20, 2023</p>
+                        </div>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-content">
+                            <h3 class="achievement-title">Best Poster Presentation Award</h3>
+                            <p class="achievement-student">N. Tejaswi & V. Harsha</p>
+                            <p class="achievement-description">Awarded for the poster presentation on "Green Chemistry in Pharmacy" at National Conference.</p>
+                            <p class="achievement-date"><i class="fas fa-calendar-alt"></i> January 12, 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Latest Updates Section -->
+            <section id="updates" class="section">
+                <h2 class="section-title">Latest Updates</h2>
+                <div class="updates-container">
+                    <div class="updates-list">
+                        <div class="update-item">
+                            <div class="update-date">Jul 10</div>
+                            <div class="update-text">Orientation program for newly admitted students scheduled on July 15, 2023</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 8</div>
+                            <div class="update-text">College ranked 15th in Top Pharmacy Colleges in India by NIRF 2023</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 5</div>
+                            <div class="update-text">MoU signed with leading pharmaceutical company for research collaboration</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 3</div>
+                            <div class="update-text">Faculty member Dr. Ramesh Kumar awarded best researcher in Pharmacology</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 1</div>
+                            <div class="update-text">New state-of-the-art analytical laboratory inaugurated by the Dean</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 28</div>
+                            <div class="update-text">Students win first prize in National Pharmacy Quiz Competition</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 25</div>
+                            <div class="update-text">Guest lecture on "Recent Advances in Drug Delivery Systems" by Prof. Sharma</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 22</div>
+                            <div class="update-text">Industrial visit to leading pharmaceutical manufacturing unit organized</div>
+                        </div>
+                        <!-- Duplicate items for seamless scrolling -->
+                        <div class="update-item">
+                            <div class="update-date">Jul 10</div>
+                            <div class="update-text">Orientation program for newly admitted students scheduled on July 15, 2023</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 8</div>
+                            <div class="update-text">College ranked 15th in Top Pharmacy Colleges in India by NIRF 2023</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 5</div>
+                            <div class="update-text">MoU signed with leading pharmaceutical company for research collaboration</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 3</div>
+                            <div class="update-text">Faculty member Dr. Ramesh Kumar awarded best researcher in Pharmacology</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jul 1</div>
+                            <div class="update-text">New state-of-the-art analytical laboratory inaugurated by the Dean</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 28</div>
+                            <div class="update-text">Students win first prize in National Pharmacy Quiz Competition</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 25</div>
+                            <div class="update-text">Guest lecture on "Recent Advances in Drug Delivery Systems" by Prof. Sharma</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">Jun 22</div>
+                            <div class="update-text">Industrial visit to leading pharmaceutical manufacturing unit organized</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Sir C R Reddy College of Pharmaceutical Sciences is a premier institution dedicated to excellence in pharmaceutical education and research.</p>
+                <p>Established in 1995, we have been nurturing skilled pharmacists who contribute significantly to the healthcare sector.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Faculty</a></li>
+                    <li><a href="#">Research</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Eluru, Andhra Pradesh 534007</p>
+                <p><i class="fas fa-phone"></i> +91 8812-234567</p>
+                <p><i class="fas fa-envelope"></i> info@scrreddypharmacy.edu.in</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Sir C R Reddy College of Pharmaceutical Sciences. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- Particles.js CDN -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', () => {
+            // Hide loader
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                
+                // Initialize particles.js
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }, 500);
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const footer = document.querySelector('footer');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // Adjust main content and footer margin when sidebar is toggled
+            if (window.innerWidth <= 992) {
+                if (sidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden'; // Prevent body scroll when sidebar is open
+                } else {
+                    document.body.style.overflow = ''; // Restore body scroll
+                }
+            }
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                document.body.style.overflow = ''; // Restore body scroll
+            }
+        });
+        
+        // Header login dropdown functionality
+        const headerLoginBtn = document.getElementById('headerLoginBtn');
+        const headerLoginDropdown = document.getElementById('headerLoginDropdown');
+        
+        headerLoginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            headerLoginDropdown.classList.toggle('active');
+            
+            // Close hero login dropdown if open
+            const heroLoginDropdown = document.getElementById('heroLoginDropdown');
+            heroLoginDropdown.classList.remove('active');
+        });
+        
+        // Hero login dropdown functionality
+        const loginIcon = document.getElementById('loginIcon');
+        const heroLoginDropdown = document.getElementById('heroLoginDropdown');
+        
+        loginIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            heroLoginDropdown.classList.toggle('active');
+            
+            // Close header login dropdown if open
+            headerLoginDropdown.classList.remove('active');
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            headerLoginDropdown.classList.remove('active');
+            heroLoginDropdown.classList.remove('active');
+        });
+        
+        // Prevent dropdown from closing when clicking inside
+        headerLoginDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        heroLoginDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // // Login dropdown item functionality
+        // document.querySelectorAll('.login-dropdown-item, .hero-login-dropdown-item').forEach(item => {
+        //     item.addEventListener('click', function(e) {
+        //         e.preventDefault();
+        //         const loginType = this.textContent.trim();
+        //         alert(`${loginType} portal will be implemented soon.`);
+                
+        //         // Close dropdowns
+        //         headerLoginDropdown.classList.remove('active');
+        //         heroLoginDropdown.classList.remove('active');
+        //     });
+        // });
+        
+        // Add active class to navigation items on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-menu a');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').slice(1) === current) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Header scroll effect
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            
+            // Section reveal animation
+            document.querySelectorAll('.section').forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        });
+        
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    sidebar.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore body scroll
+                }
+            });
+        });
+        
+        // // Login button functionality
+        // document.querySelectorAll('.login-btn').forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         const loginType = this.textContent.trim();
+        //         alert(`${loginType} portal will be implemented soon.`);
+        //     });
+        // });
+        
+        // Result icon functionality
+        document.getElementById('resultIcon').addEventListener('click', () => {
+            const resultsSection = document.getElementById('results');
+            resultsSection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        
+        // Back to top functionality
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Animated counters
+        function animateCounter(el, target, duration) {
+            let startTime = null;
+            const startValue = 0;
+            
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const value = Math.floor(progress * (target - startValue) + startValue);
+                el.textContent = value;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    el.textContent = target;
+                }
+            }
+            
+            window.requestAnimationFrame(step);
+        }
+        
+        // Initialize counters when stats section is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.getElementById('students-count'), 1200, 2000);
+                    animateCounter(document.getElementById('courses-count'), 8, 1500);
+                    animateCounter(document.getElementById('faculty-count'), 45, 1800);
+                    animateCounter(document.getElementById('years-count'), 28, 2500);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.querySelector('.stats-section'));
+    </script> 
+</body>
+</html>

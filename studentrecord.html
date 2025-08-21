@@ -1,0 +1,4324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sir C R Reddy College of Pharmaceutical Sciences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #0a9efb;
+            --secondary-color: #fe5a5a;
+            --accent-color: #24d5e8;
+            --light-color: #f1faee;
+            --dark-color: #101110;
+            --gradient-1: linear-gradient(135deg, #952baf, #457b9d);
+            --gradient-2: linear-gradient(135deg, var(--secondary-color), #f3722c);
+            --sidebar-width: 260px;
+            --text: #333;
+            --success: #28a745;
+            --info: #17a2b8;
+            --purple-light: #8a2be2;
+            --purple-dark: #4b0082;
+            --transition: all 0.3s ease;
+            --notice: #ff9900;
+            --error: #dc3545;
+            --footer-bg: var(--dark-color);
+            --footer-border: var(--primary-color);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f9f9f9 0%, #f1faee 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        /* Decorative background elements */
+        .bg-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.08;
+        }
+        .bg-1 {
+            top: 10%;
+            left: 5%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--primary-color), transparent);
+            border-radius: 50%;
+            animation: pulse 8s infinite ease-in-out;
+        }
+        .bg-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--accent-color), transparent);
+            transform: rotate(45deg);
+            animation: rotate 25s infinite linear;
+        }
+        .bg-3 {
+            top: 40%;
+            left: 20%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--dark-color), transparent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 12s infinite ease-in-out;
+        }
+        /* Keyframes */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.08; }
+            50% { transform: scale(1.1); opacity: 0.15; }
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            33% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+            66% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* HEADER STYLES */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* SIDEBAR STYLES */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--gradient-1);
+            padding-top: 100px;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            border-right: 4px solid #952baf;
+        }
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 0;
+        }
+        .nav-links {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0 4px 4px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+        }
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: #952baf;
+            transform: scaleY(0);
+            transition: all 0.3s ease;
+        }
+        .nav-links li a:hover::before {
+            transform: scaleY(1);
+        }
+        .nav-links li a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #952baf;
+            padding-left: 2rem;
+        }
+        .nav-links li a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #952baf;
+            font-weight: 600;
+        }
+        .nav-links li a.active::before {
+            transform: scaleY(1);
+        }
+        .nav-links li a i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            color: white;
+        }
+        .nav-links li a:hover i {
+            color: white;
+        }
+        
+        /* Login Dropdown Styles */
+        .login-container {
+            padding: 0 1rem;
+            margin-top: 1rem;
+        }
+        .login-btn {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .login-btn:hover {
+            background: #d62828;
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(230, 57, 70, 0.4);
+        }
+        .login-dropdown {
+            margin-top: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .login-dropdown.active {
+            max-height: 200px;
+        }
+        .login-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .login-dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #952baf;
+            padding-left: 1.5rem;
+        }
+        .login-dropdown a i {
+            color: #e63946;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+        
+        /* Important Notice Banner */
+        .notice-banner {
+            background: transparent;
+            color: #000;
+            padding: 12px 0;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: none;
+            z-index: 10;
+            margin-top: 0;
+        }
+        
+        .notice-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scrollNotice 25s linear infinite;
+            padding-right: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #000;
+        }
+        
+        .notice-content i {
+            margin: 0 15px;
+            color: var(--secondary-color);
+            animation: pulseIcon 2s infinite;
+        }
+        
+        @keyframes scrollNotice {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/seed/pharmacy-college/1600/600.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: calc(100vh - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient-2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .cta-button:hover::before {
+            transform: translateX(100%);
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Floating Action Buttons */
+        .floating-buttons {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 5;
+        }
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .floating-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        .floating-btn.result {
+            background: rgba(36, 213, 232, 0.7);
+        }
+        .floating-btn.login {
+            background: rgba(254, 90, 90, 0.7);
+        }
+        
+        /* Courses Section */
+        .courses-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--accent-color);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .course-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .course-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        .course-card .duration {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .course-card p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* Admission Process Section */
+        .admission-process {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .process-card {
+            flex: 1 1 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-width: 350px;
+        }
+        .process-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .process-card .number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            color: var(--dark-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .process-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .process-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .process-card p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* Requirements Section */
+        .requirements {
+            background: var(--light-color);
+            padding: 80px 5%;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .requirement-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        .requirement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .requirement-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .requirement-card h3 i {
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+        .requirement-card ul {
+            list-style: none;
+        }
+        .requirement-card li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .requirement-card li::before {
+            content: '•';
+            position: absolute;
+            left: 10px;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Admission Form Section */
+        .admission-form-section {
+            background: white;
+            padding: 80px 5%;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto 80px;
+        }
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .form-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .form-header p {
+            color: var(--text);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(10, 158, 251, 0.1);
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-btn {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: 200px;
+        }
+        .form-btn:hover {
+            background: linear-gradient(135deg, #d62828, #e76f51);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+        }
+        
+        /* Student Records Section */
+        .student-records {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .admin-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+        .admin-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        .search-box input {
+            padding-left: 40px;
+        }
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .admin-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .export-btn {
+            background: var(--success);
+            color: white;
+        }
+        .export-btn:hover {
+            background: #218838;
+        }
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+        }
+        .clear-btn:hover {
+            background: #c82333;
+        }
+        .records-table-container {
+            overflow-x: auto;
+        }
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .records-table th, .records-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .records-table th {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        .records-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .records-table tr:hover {
+            background-color: #e9ecef;
+        }
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .edit-btn {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .edit-btn:hover {
+            background-color: #138496;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .no-records {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        /* Attendance Section */
+        .attendance-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .attendance-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .panel-header h2 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-group select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 0.95rem;
+            min-width: 150px;
+        }
+        .student-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .student-selector select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            min-width: 250px;
+        }
+        .attendance-form {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .attendance-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .calendar-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .calendar-day:hover {
+            background: var(--light-color);
+        }
+        .calendar-day.present {
+            background: var(--success);
+            color: white;
+        }
+        .calendar-day.absent {
+            background: #dc3545;
+            color: white;
+        }
+        .calendar-day.late {
+            background: var(--accent-color);
+            color: var(--dark-color);
+        }
+        .attendance-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        /* Marks Section */
+        .marks-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .marks-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+        .marks-form {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .marks-table-container {
+            overflow-x: auto;
+        }
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .marks-table th, .marks-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .marks-table th {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        .marks-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .marks-table tr:hover {
+            background-color: #e9ecef;
+        }
+        .grade-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        .grade-a {
+            background-color: var(--success);
+        }
+        .grade-b {
+            background-color: #17a2b8;
+        }
+        .grade-c {
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+        }
+        .grade-d {
+            background-color: #fd7e14;
+        }
+        .grade-f {
+            background-color: #dc3545;
+        }
+        .performance-chart {
+            margin-top: 30px;
+            height: 300px;
+            position: relative;
+        }
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            background: linear-gradient(to top, var(--primary-color), var(--accent-color));
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+        }
+        .chart-label {
+            position: absolute;
+            bottom: -30px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .chart-value {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+        .faq-question i {
+            transition: var(--transition);
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 25px 20px;
+            max-height: 500px;
+        }
+        
+        /* CTA Section */
+        .admission-cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            padding: 80px 5%;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 1200px;
+        }
+        .admission-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .admission-cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary-color);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .cta-btn.outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .cta-btn.outline:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        /* Dashboard Styles */
+        #dashboard {
+            display: none;
+            padding: 6rem 5%;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dashboard-card h3 i {
+            color: var(--secondary-color);
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(149, 43, 175, 0.05), rgba(69, 123, 157, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .student-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .student-details h4 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .student-details p {
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+        
+        .attendance-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .attendance-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 15px;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+        
+        .present {
+            background: rgba(40, 167, 69, 0.1);
+            border: 2px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .absent {
+            background: rgba(220, 53, 69, 0.1);
+            border: 2px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        .attendance-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .attendance-item .number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .present .number {
+            color: #28a745;
+        }
+        
+        .absent .number {
+            color: #dc3545;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 1.5rem;
+        }
+        
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        
+        .performance-table th {
+            background: var(--primary-color);
+            color: white;
+            text-align: left;
+            padding: 1rem;
+        }
+        
+        .performance-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .performance-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .performance-table .subject {
+            font-weight: 600;
+        }
+        
+        .performance-table .grade {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .logout-btn {
+            display: block;
+            width: 200px;
+            margin: 3rem auto 0;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .logout-btn:hover {
+            background: #e55a00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(254, 90, 90, 0.4);
+        }
+        
+        /* Total Marks Card Styles */
+        .total-marks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        .marks-stat {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 15px;
+            flex: 1;
+            margin: 0 0.5rem;
+            background: linear-gradient(135deg, rgba(149, 43, 175, 0.05), rgba(69, 123, 157, 0.1));
+            border: 2px solid rgba(149, 43, 175, 0.2);
+        }
+        
+        .marks-stat h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .marks-stat .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .marks-stat .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .modal-header h2 {
+            color: var(--primary-color);
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: var(--transition);
+        }
+        .close-modal:hover {
+            color: var(--secondary-color);
+        }
+        .modal-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .modal-form .form-group {
+            margin-bottom: 15px;
+        }
+        .modal-form .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+            grid-column: 1 / -1;
+        }
+        .modal-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+        }
+        .cancel-btn:hover {
+            background: #5a6268;
+        }
+        .save-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+        }
+        .save-btn:hover {
+            background: #218838;
+        }
+        
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .login-modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: modalIn 0.4s ease-out;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-modal-header {
+            background: var(--gradient-1);
+            padding: 1.5rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .login-modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .login-modal-body {
+            padding: 2rem;
+        }
+        .login-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        .login-tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #999;
+            cursor: pointer;
+            position: relative;
+        }
+        .login-tab-btn.active {
+            color: var(--primary-color);
+        }
+        .login-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        .login-tab-content {
+            display: none;
+        }
+        .login-tab-content.active {
+            display: block;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .form-container, .modal-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                text-align: center;
+            }
+            
+            .hero {
+                background-attachment: scroll;
+            }
+            
+            .floating-buttons {
+                right: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 5%;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .records-table th, .records-table td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .action-btns {
+                flex-direction: column;
+            }
+            
+            .admin-controls {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .attendance-calendar {
+                grid-template-columns: repeat(7, 1fr);
+                font-size: 0.8rem;
+            }
+            
+            .calendar-day {
+                min-height: 40px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .filter-group select {
+                width: 100%;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .attendance-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .attendance-item {
+                margin: 0;
+            }
+            
+            .total-marks {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .marks-stat {
+                margin: 0;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .floating-buttons {
+                right: 10px;
+                gap: 15px;
+            }
+            
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+        
+        /* Success and Error Messages */
+        .success-message, .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+            font-weight: 500;
+        }
+        
+        .success-message {
+            background: var(--success);
+            color: white;
+        }
+        
+        .error-message {
+            background: var(--error);
+            color: white;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+         /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        .footer-section p, .footer-section li {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content,
+            footer {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .ticker-content {
+                padding-left: 150px;
+            }
+            
+            .ticker-title {
+                left: 20px;
+                font-size: 14px;
+                padding: 3px 10px;
+            }
+            .hero {
+                background-attachment: scroll;
+            }
+            
+            .hero-icons {
+                right: 15px;
+            }
+            
+            .header-login {
+                display: none;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .footer-content {
+                padding: 0 15px;
+            }
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .hero-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Background Elements -->
+    <div class="bg-element bg-1"></div>
+    <div class="bg-element bg-2"></div>
+    <div class="bg-element bg-3"></div>
+    
+    <!-- HEADER SECTION -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <img src="https://picsum.photos/seed/pharmacy-logo/120/120.jpg" alt="College Logo">
+                <div class="logo-text">
+                    <h1>Sir C R Reddy <span>College of Pharmaceutical Sciences</span></h1>
+                    <p>Excellence in Pharmaceutical Education</p>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> +91 8812 234 567</p>
+                <p><i class="fas fa-envelope"></i> info@scrreddypharmacy.edu.in</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="sidebar" id="sidebar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+            <li><a href="faculty.html"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
+            <li><a href="admission.html"><i class="fas fa-book"></i> Admission</a></li>
+            <li><a href="Circulars.html"><i class="fas fa-calendar"></i>Circulars</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+             <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results Portal</a></li>
+            </ul>
+            <div class="login-container">
+                <button class="login-btn" id="loginBtn">
+                    <span><i class="fas fa-sign-in-alt"></i> Login</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="login-dropdown" id="loginDropdown">
+                    <a href="#" class="login-option" data-type="parent"><i class="fas fa-user-friends"></i> Parent Login</a>
+                    <a href="#" class="login-option" data-type="student"><i class="fas fa-user-graduate"></i> Student Login</a>
+                    <a href="#" class="login-option" data-type="admin"><i class="fas fa-user-shield"></i> Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h2>Excellence in <span>Pharmaceutical Education</span></h2>
+                <p>Sir C R Reddy College of Pharmaceutical Sciences, Eluru provides world-class education in pharmaceutical sciences, preparing students for successful careers in healthcare and research.</p>
+                <a href="#admission-form" class="cta-button">Apply Now</a>
+            </div>
+            
+            <!-- Floating Action Buttons -->
+            <div class="floating-buttons">
+                <button class="floating-btn result" id="resultBtn" title="Results">
+                    <i class="fas fa-chart-line"></i>
+                </button>
+                <button class="floating-btn login" id="loginBtn" title="Login">
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Important Notice Banner -->
+        <section class="notice-banner">
+            <div class="notice-content">
+                <i class="fas fa-exclamation-circle"></i>
+                Important Notice: Admissions for the academic year 2023-24 are now open at Sir C R Reddy College of Pharmaceutical Sciences, Eluru. Last date for application submission is 30th June 2023.
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+        </section>
+        
+        <!-- Courses Section -->
+        <section class="courses-section" id="courses">
+            <div class="section-title">
+                <h2>Our Courses</h2>
+                <p>Comprehensive pharmacy programs to build your career</p>
+            </div>
+            
+            <div class="courses-grid">
+                <!-- B. Pharm Course -->
+                <div class="course-card">
+                    <i class="fas fa-pills"></i>
+                    <h3>B. Pharm</h3>
+                    <div class="duration">4 Years</div>
+                    <p>Our Bachelor of Pharmacy program provides comprehensive education in pharmaceutical sciences, preparing students for diverse career opportunities in the healthcare industry.</p>
+                </div>
+                
+                <!-- M. Pharm Course -->
+                <div class="course-card">
+                    <i class="fas fa-microscope"></i>
+                    <h3>M. Pharm</h3>
+                    <div class="duration">2 Years</div>
+                    <p>The Master of Pharmacy program offers specialized education in various pharmaceutical disciplines, enabling students to develop expertise in research and advanced pharmaceutical practices.</p>
+                </div>
+                
+                <!-- Pharm. D Course -->
+                <div class="course-card">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Pharm. D</h3>
+                    <div class="duration">6 Years</div>
+                    <p>Our Doctor of Pharmacy program is designed to develop clinical pharmacy practitioners who can provide optimal medication therapy management and patient care services.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Admission Process Section -->
+        <section class="admission-process" id="about">
+            <div class="section-title">
+                <h2>Admission Process</h2>
+                <p>Simple steps to join our institution</p>
+            </div>
+            
+            <div class="process-steps">
+                <!-- Step 1 -->
+                <div class="process-card">
+                    <div class="number">1</div>
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Application Submission</h3>
+                    <p>Complete the online application form with all required details and documents</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="process-card">
+                    <div class="number">2</div>
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Eligibility Check</h3>
+                    <p>Our admissions team will verify your eligibility based on academic qualifications and entrance exam scores</p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="process-card">
+                    <div class="number">3</div>
+                    <i class="fas fa-comments"></i>
+                    <h3>Counseling Session</h3>
+                    <p>Attend a counseling session to discuss course options, fee structure, and career prospects</p>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="process-card">
+                    <div class="number">4</div>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Fee Payment</h3>
+                    <p>Complete the admission process by paying the required fees and submitting necessary documents</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Requirements Section -->
+        <section class="requirements">
+            <div class="section-title">
+                <h2>Eligibility Requirements</h2>
+                <p>Documents and criteria needed for enrollment</p>
+            </div>
+            
+            <div class="requirements-grid">
+                <!-- B. Pharm Requirements -->
+                <div class="requirement-card">
+                    <h3><i class="fas fa-pills"></i> B. Pharm Eligibility</h3>
+                    <ul>
+                        <li>10+2 examination with Physics, Chemistry, and Biology/Mathematics</li>
+                        <li>Minimum 50% aggregate marks in qualifying examination</li>
+                        <li>Valid score in entrance examination (if applicable)</li>
+                        <li>Age limit: 17 years as on 31st December of admission year</li>
+                    </ul>
+                </div>
+                
+                <!-- M. Pharm Requirements -->
+                <div class="requirement-card">
+                    <h3><i class="fas fa-microscope"></i> M. Pharm Eligibility</h3>
+                    <ul>
+                        <li>Bachelor's degree in Pharmacy (B. Pharm) from recognized university</li>
+                        <li>Minimum 55% aggregate marks in B. Pharm</li>
+                        <li>Valid score in GPAT or equivalent entrance examination</li>
+                        <li>No age limit for admission</li>
+                    </ul>
+                </div>
+                
+                <!-- Pharm. D Requirements -->
+                <div class="requirement-card">
+                    <h3><i class="fas fa-user-md"></i> Pharm. D Eligibility</h3>
+                    <ul>
+                        <li>10+2 examination with Physics, Chemistry, and Biology/Mathematics</li>
+                        <li>Minimum 60% aggregate marks in qualifying examination</li>
+                        <li>Valid score in entrance examination (if applicable)</li>
+                        <li>Age limit: 17 years as on 31st December of admission year</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Admission Form Section -->
+        <section class="admission-form-section" id="admission-form">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Admission Application Form</h2>
+                    <p>Fill out the form below to begin your application process</p>
+                </div>
+                
+                <!-- Student Information -->
+                <div class="form-group">
+                    <label for="student-name">Student Full Name*</label>
+                    <input type="text" id="student-name" name="student-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth*</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender*</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="course">Course Applying For*</label>
+                    <select id="course" name="course" required>
+                        <option value="">Select Course</option>
+                        <option value="b-pharm">B. Pharm (4 Years)</option>
+                        <option value="m-pharm">M. Pharm (2 Years)</option>
+                        <option value="pharm-d">Pharm. D (6 Years)</option>
+                    </select>
+                </div>
+                
+                <!-- Parent Information -->
+                <div class="form-group">
+                    <label for="father-name">Father's Name*</label>
+                    <input type="text" id="father-name" name="father-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mother-name">Mother's Name*</label>
+                    <input type="text" id="mother-name" name="mother-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parent-email">Parent Email*</label>
+                    <input type="email" id="parent-email" name="parent-email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parent-phone">Parent Phone*</label>
+                    <input type="tel" id="parent-phone" name="parent-phone" required>
+                </div>
+                
+                <!-- Address Information -->
+                <div class="form-group full-width">
+                    <label for="address">Current Address*</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">City*</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="state">State*</label>
+                    <input type="text" id="state" name="state" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pincode">Pincode*</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                </div>
+                
+                <!-- Education Information -->
+                <div class="form-group">
+                    <label for="qualification">Last Qualification*</label>
+                    <input type="text" id="qualification" name="qualification" placeholder="e.g., 10+2, B. Pharm" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="percentage">Percentage/CGPA*</label>
+                    <input type="text" id="percentage" name="percentage" required>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="form-group full-width">
+                    <label for="reason">Why do you want to join our college?*</label>
+                    <textarea id="reason" name="reason" required></textarea>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="form-btn" id="submit-application">Submit Application</button>
+            </div>
+        </section>
+        
+        <!-- Student Records Section -->
+        <section class="student-records" id="records">
+            <div class="section-title">
+                <h2>Student Records Management</h2>
+                <p>View, edit, and manage student applications</p>
+            </div>
+            
+            <div class="admin-panel">
+                <div class="admin-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search by name, course or contact...">
+                    </div>
+                    <div class="admin-actions">
+                        <button class="admin-btn export-btn" id="export-btn">
+                            <i class="fas fa-file-export"></i> Export Data
+                        </button>
+                        <button class="admin-btn clear-btn" id="clear-btn">
+                            <i class="fas fa-trash-alt"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="records-table-container">
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student Name</th>
+                                <th>Course</th>
+                                <th>Duration</th>
+                                <th>DOB</th>
+                                <th>Parent Phone</th>
+                                <th>Date Applied</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-body">
+                            <!-- Records will be populated here -->
+                        </tbody>
+                    </table>
+                    <div class="no-records" id="no-records">No student records found. Submit an application to get started.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Attendance Section -->
+        <section class="attendance-section" id="attendance">
+            <div class="section-title">
+                <h2>Student Attendance</h2>
+                <p>Track and manage student attendance</p>
+            </div>
+            
+            <div class="attendance-panel">
+                <div class="panel-header">
+                    <h2>Attendance Management</h2>
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label for="attendance-course-filter">Course:</label>
+                            <select id="attendance-course-filter">
+                                <option value="">All Courses</option>
+                                <option value="b-pharm">B. Pharm</option>
+                                <option value="m-pharm">M. Pharm</option>
+                                <option value="pharm-d">Pharm. D</option>
+                            </select>
+                        </div>
+                        <div class="student-selector">
+                            <label for="attendance-student">Select Student:</label>
+                            <select id="attendance-student">
+                                <option value="">-- Select Student --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="attendance-form">
+                    <h3>Mark Attendance</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="attendance-date">Date</label>
+                            <input type="date" id="attendance-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="attendance-status">Status</label>
+                            <select id="attendance-status">
+                                <option value="present">Present</option>
+                                <option value="absent">Absent</option>
+                                <option value="late">Late</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button class="admin-btn export-btn" id="mark-attendance-btn">Mark Attendance</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="attendance-calendar-container">
+                    <div class="no-data">Select a student to view attendance calendar</div>
+                </div>
+                
+                <div class="attendance-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: var(--success);"></div>
+                        <span>Present</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #dc3545;"></div>
+                        <span>Absent</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: var(--accent-color);"></div>
+                        <span>Late</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Marks Section -->
+        <section class="marks-section" id="marks">
+            <div class="section-title">
+                <h2>Subject-wise Marks</h2>
+                <p>Manage and track student academic performance</p>
+            </div>
+            
+            <div class="marks-panel">
+                <div class="panel-header">
+                    <h2>Marks Management</h2>
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label for="marks-course-filter">Course:</label>
+                            <select id="marks-course-filter">
+                                <option value="">All Courses</option>
+                                <option value="b-pharm">B. Pharm</option>
+                                <option value="m-pharm">M. Pharm</option>
+                                <option value="pharm-d">Pharm. D</option>
+                            </select>
+                        </div>
+                        <div class="student-selector">
+                            <label for="marks-student">Select Student:</label>
+                            <select id="marks-student">
+                                <option value="">-- Select Student --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="marks-form">
+                    <h3>Add Marks</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject">
+                                <option value="Pharmaceutics">Pharmaceutics</option>
+                                <option value="Pharmaceutical Chemistry">Pharmaceutical Chemistry</option>
+                                <option value="Pharmacology">Pharmacology</option>
+                                <option value="Pharmacognosy">Pharmacognosy</option>
+                                <option value="Pharmaceutical Analysis">Pharmaceutical Analysis</option>
+                                <option value="Biochemistry">Biochemistry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exam-type">Exam Type</label>
+                            <select id="exam-type">
+                                <option value="Unit Test">Unit Test</option>
+                                <option value="Midterm">Midterm</option>
+                                <option value="Final">Final</option>
+                                <option value="Assignment">Assignment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="marks-obtained">Marks Obtained</label>
+                            <input type="number" id="marks-obtained" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="max-marks">Maximum Marks</label>
+                            <input type="number" id="max-marks" min="1" value="100">
+                        </div>
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button class="admin-btn export-btn" id="add-marks-btn">Add Marks</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="marks-table-container">
+                    <div class="no-data">Select a student to view marks</div>
+                </div>
+                
+                <div id="performance-chart-container">
+                    <div class="no-data">Select a student to view performance chart</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common admission queries</p>
+            </div>
+            
+            <!-- FAQ Item 1 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are the eligibility criteria for B. Pharm?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Candidates must have passed 10+2 examination with Physics, Chemistry, and Biology/Mathematics with a minimum of 50% aggregate marks. The age limit is 17 years as on 31st December of the admission year.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is there an entrance examination for admission?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, admissions are based on merit in the qualifying examination and performance in the entrance examination conducted by the college or state authority.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the fee structure for different courses?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>The fee structure varies for each course. Detailed fee information is provided during the counseling session. We also offer scholarships and financial assistance to deserving students.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are the career opportunities after completing pharmacy courses?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Pharmacy graduates have diverse career opportunities in community pharmacy, hospital pharmacy, pharmaceutical industry, research and development, regulatory affairs, and academics.</p>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 5 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Does the college provide hostel facilities?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we provide separate hostel facilities for boys and girls with all necessary amenities including Wi-Fi, mess, and 24/7 security.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="admission-cta">
+            <h2>Ready to Start Your Pharmacy Journey?</h2>
+            <p>Join Sir C R Reddy College of Pharmaceutical Sciences, Eluru and build a successful career in pharmaceutical sciences</p>
+            <div class="cta-buttons">
+                <a href="#admission-form" class="cta-btn">Apply Now</a>
+            </div>
+        </section>
+        
+        <!-- Dashboard Section -->
+        <section id="dashboard">
+            <div class="dashboard-header">
+                <h2>Student Dashboard</h2>
+                <p>Welcome to your personalized academic portal</p>
+            </div>
+            
+            <div class="student-info" id="student-info">
+                <div class="student-avatar" id="studentAvatar">JD</div>
+                <div class="student-details">
+                    <h4 id="dashboardStudentName">John Doe</h4>
+                    <p id="dashboardStudentCourse">Course: B. Pharm</p>
+                    <p id="studentAdmission">Admission No: SCR20231001</p>
+                    <p id="studentRoll">Roll No: 25</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-calendar-check"></i> Attendance Summary</h3>
+                    <div class="attendance-summary">
+                        <div class="attendance-item present">
+                            <h4>Present</h4>
+                            <div class="number" id="presentCount">85%</div>
+                            <p id="presentDays">128 days</p>
+                        </div>
+                        <div class="attendance-item absent">
+                            <h4>Absent</h4>
+                            <div class="number" id="absentCount">15%</div>
+                            <p id="absentDays">22 days</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line"></i> Academic Performance</h3>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-trophy"></i> Total Marks</h3>
+                    <div class="total-marks">
+                        <div class="marks-stat">
+                            <h4>Marks Obtained</h4>
+                            <div class="stat-number" id="totalMarksObtained">0</div>
+                            <div class="stat-label">Sum of all marks</div>
+                        </div>
+                        <div class="marks-stat">
+                            <h4>Maximum Marks</h4>
+                            <div class="stat-number" id="totalMaxMarks">0</div>
+                            <div class="stat-label">Total possible</div>
+                        </div>
+                        <div class="marks-stat">
+                            <h4>Percentage</h4>
+                            <div class="stat-number" id="totalPercentage">0%</div>
+                            <div class="stat-label">Overall score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3><i class="fas fa-book"></i> Subject-wise Marks</h3>
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Term 1</th>
+                            <th>Term 2</th>
+                            <th>Term 3</th>
+                            <th>Overall</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marksTableBody">
+                        <!-- Marks will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </section>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Edit Student Record</h2>
+                <button class="close-modal" id="close-edit-modal">&times;</button>
+            </div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <div class="modal-form">
+                    <div class="form-group">
+                        <label for="edit-student-name">Student Full Name*</label>
+                        <input type="text" id="edit-student-name" name="student-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-dob">Date of Birth*</label>
+                        <input type="date" id="edit-dob" name="dob" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-gender">Gender*</label>
+                        <select id="edit-gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-course">Course*</label>
+                        <select id="edit-course" name="course" required>
+                            <option value="">Select Course</option>
+                            <option value="b-pharm">B. Pharm (4 Years)</option>
+                            <option value="m-pharm">M. Pharm (2 Years)</option>
+                            <option value="pharm-d">Pharm. D (6 Years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-father-name">Father's Name*</label>
+                        <input type="text" id="edit-father-name" name="father-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-mother-name">Mother's Name*</label>
+                        <input type="text" id="edit-mother-name" name="mother-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-parent-email">Parent Email*</label>
+                        <input type="email" id="edit-parent-email" name="parent-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-parent-phone">Parent Phone*</label>
+                        <input type="tel" id="edit-parent-phone" name="parent-phone" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="edit-address">Current Address*</label>
+                        <textarea id="edit-address" name="address" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-city">City*</label>
+                        <input type="text" id="edit-city" name="city" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-state">State*</label>
+                        <input type="text" id="edit-state" name="state" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-pincode">Pincode*</label>
+                        <input type="text" id="edit-pincode" name="pincode" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-qualification">Last Qualification*</label>
+                        <input type="text" id="edit-qualification" name="qualification" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-percentage">Percentage/CGPA*</label>
+                        <input type="text" id="edit-percentage" name="percentage" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="edit-reason">Why do you want to join our college?*</label>
+                        <textarea id="edit-reason" name="reason" required></textarea>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" class="modal-btn cancel-btn" id="cancel-edit">Cancel</button>
+                        <button type="submit" class="modal-btn save-btn">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-modal-content">
+            <div class="login-modal-header">
+                <h3 id="modalTitle">Login</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="login-modal-body">
+                <div class="login-tabs">
+                    <button class="login-tab-btn active" data-tab="student">Student</button>
+                    <button class="login-tab-btn" data-tab="parent">Parent</button>
+                    <button class="login-tab-btn" data-tab="admin">Admin</button>
+                </div>
+                
+                <div class="login-tab-content active" id="student-tab">
+                    <form id="studentForm">
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentCourse">Course</label>
+                            <select id="studentCourse" required>
+                                <option value="">Select your course</option>
+                                <option value="b-pharm">B. Pharm</option>
+                                <option value="m-pharm">M. Pharm</option>
+                                <option value="pharm-d">Pharm. D</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentDOB">Date of Birth</label>
+                            <input type="date" id="studentDOB" required>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Login</button>
+                    </form>
+                </div>
+                
+                <div class="login-tab-content" id="parent-tab">
+                    <form id="parentForm">
+                        <div class="form-group">
+                            <label for="parentName">Parent Name</label>
+                            <input type="text" id="parentName" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="relationship">Relationship to Student</label>
+                            <select id="relationship" required>
+                                <option value="">Select relationship</option>
+                                <option value="father">Father</option>
+                                <option value="mother">Mother</option>
+                                <option value="guardian">Guardian</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="childName">Student Name</label>
+                            <input type="text" id="childName" placeholder="Enter student's full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="childCourse">Student's Course</label>
+                            <select id="childCourse" required>
+                                <option value="">Select course</option>
+                                <option value="b-pharm">B. Pharm</option>
+                                <option value="m-pharm">M. Pharm</option>
+                                <option value="pharm-d">Pharm. D</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Login</button>
+                    </form>
+                </div>
+                
+                <div class="login-tab-content" id="admin-tab">
+                    <form id="adminForm">
+                        <div class="form-group">
+                            <label for="adminUsername">Username</label>
+                            <input type="text" id="adminUsername" placeholder="Enter admin username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword">Password</label>
+                            <input type="password" id="adminPassword" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Sir C R Reddy College of Pharmaceutical Sciences is a premier institution dedicated to excellence in pharmaceutical education and research.</p>
+                <p>Established in 1995, we have been nurturing skilled pharmacists who contribute significantly to the healthcare sector.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Faculty</a></li>
+                    <li><a href="#">Research</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Eluru, Andhra Pradesh 534007</p>
+                <p><i class="fas fa-phone"></i> +91 8812-234567</p>
+                <p><i class="fas fa-envelope"></i> info@scrreddypharmacy.edu.in</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Sir C R Reddy College of Pharmaceutical Sciences. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Data storage and management
+        const STORAGE_KEY = 'studentRecords';
+        
+        // Get records from localStorage
+        function getRecords() {
+            const records = localStorage.getItem(STORAGE_KEY);
+            return records ? JSON.parse(records) : [];
+        }
+        
+        // Save records to localStorage
+        function saveRecords(records) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+        }
+        
+        // Function to check for duplicate records
+        function isDuplicateRecord(record, excludeId = null) {
+            const records = getRecords();
+            return records.some(r => {
+                // Skip the record being edited (if excludeId is provided and matches)
+                if (excludeId && r.id === excludeId) return false;
+                return r.studentName.toLowerCase() === record.studentName.toLowerCase() &&
+                       r.dob === record.dob &&
+                       r.course === record.course;
+            });
+        }
+        
+        // Add a new record with duplicate check
+        function addRecord(record) {
+            // Check for duplicates
+            if (isDuplicateRecord(record)) {
+                return { success: false, message: "A record with the same student name, date of birth, and course already exists." };
+            }
+            
+            const records = getRecords();
+            // Generate unique ID
+            record.id = Date.now().toString();
+            record.dateApplied = new Date().toISOString().split('T')[0];
+            // Initialize attendance and marks arrays
+            record.attendance = [];
+            record.marks = [];
+            records.push(record);
+            saveRecords(records);
+            return { success: true, message: "Record added successfully." };
+        }
+        
+        // Update a record with duplicate check
+        function updateRecord(updatedRecord) {
+            // Check for duplicates (excluding the current record)
+            if (isDuplicateRecord(updatedRecord, updatedRecord.id)) {
+                return { success: false, message: "A record with the same student name, date of birth, and course already exists." };
+            }
+            
+            const records = getRecords();
+            const index = records.findIndex(r => r.id === updatedRecord.id);
+            if (index !== -1) {
+                records[index] = updatedRecord;
+                saveRecords(records);
+                return { success: true, message: "Record updated successfully." };
+            }
+            return { success: false, message: "Record not found." };
+        }
+        
+// Delete a record
+        function deleteRecord(id) {
+            const records = getRecords().filter(r => r.id !== id);
+            saveRecords(records);
+        }
+        
+        // Clear all records
+        function clearAllRecords() {
+            if (confirm('Are you sure you want to delete ALL student records? This cannot be undone.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                return true;
+            }
+            return false;
+        }
+        
+        // Get course duration based on course code
+        function getCourseDuration(course) {
+            const durations = {
+                'b-pharm': '4 Years',
+                'm-pharm': '2 Years',
+                'pharm-d': '6 Years'
+            };
+            return durations[course] || '';
+        }
+        
+        // Get course name based on course code
+        function getCourseName(course) {
+            const names = {
+                'b-pharm': 'B. Pharm',
+                'm-pharm': 'M. Pharm',
+                'pharm-d': 'Pharm. D'
+            };
+            return names[course] || '';
+        }
+        
+        // Function to get student records from localStorage
+        function getStudentRecords() {
+            const records = localStorage.getItem('studentRecords');
+            return records ? JSON.parse(records) : [];
+        }
+        
+        // Function to find a student by name and course
+        function findStudentRecord(name, course) {
+            const records = getStudentRecords();
+            return records.find(record => {
+                return record.studentName.toLowerCase() === name.toLowerCase() && 
+                       record.course === course;
+            });
+        }
+        
+        // Function to calculate grade
+        function calculateGradeForMarks(marks) {
+            if (marks === '-') return '-';
+            if (marks >= 90) return 'A1';
+            if (marks >= 80) return 'A2';
+            if (marks >= 70) return 'B1';
+            if (marks >= 60) return 'B2';
+            if (marks >= 50) return 'C1';
+            if (marks >= 40) return 'C2';
+            return 'D';
+        }
+        
+        // Function to display student details
+        function displayStudentDetails(studentRecord) {
+            // Check if details section exists, create if not
+            let detailsSection = document.getElementById('studentDetailsSection');
+            if (!detailsSection) {
+                detailsSection = document.createElement('div');
+                detailsSection.id = 'studentDetailsSection';
+                detailsSection.className = 'dashboard-card';
+                detailsSection.innerHTML = `
+                    <h3><i class="fas fa-user"></i> Personal Details</h3>
+                    <div id="studentDetailsContent"></div>
+                `;
+                
+                // Insert at the beginning of dashboard grid
+                const dashboardGrid = document.querySelector('.dashboard-grid');
+                if (dashboardGrid) {
+                    dashboardGrid.insertBefore(detailsSection, dashboardGrid.firstChild);
+                }
+            }
+            
+            // Populate student details
+            const detailsContent = document.getElementById('studentDetailsContent');
+            if (detailsContent) {
+                detailsContent.innerHTML = `
+                    <p><strong>Full Name:</strong> ${studentRecord.studentName}</p>
+                    <p><strong>Date of Birth:</strong> ${studentRecord.dob}</p>
+                    <p><strong>Gender:</strong> ${studentRecord.gender}</p>
+                    <p><strong>Course:</strong> ${getCourseName(studentRecord.course)}</p>
+                    <p><strong>Father's Name:</strong> ${studentRecord.fatherName}</p>
+                    <p><strong>Mother's Name:</strong> ${studentRecord.motherName}</p>
+                    <p><strong>Parent's Email:</strong> ${studentRecord.parentEmail}</p>
+                    <p><strong>Parent's Phone:</strong> ${studentRecord.parentPhone}</p>
+                    <p><strong>Address:</strong> ${studentRecord.address}, ${studentRecord.city}, ${studentRecord.state} - ${studentRecord.pincode}</p>
+                `;
+            }
+        }
+        
+        // Function to update dashboard with student data
+        function updateDashboard(studentRecord) {
+            // Update student info
+            const studentName = studentRecord.studentName;
+            const initials = studentName.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            document.getElementById('studentAvatar').textContent = initials;
+            document.getElementById('dashboardStudentName').textContent = studentName;
+            document.getElementById('dashboardStudentCourse').textContent = `Course: ${getCourseName(studentRecord.course)}`;
+            
+            // Display student details
+            displayStudentDetails(studentRecord);
+            
+            // Update attendance data
+            updateAttendanceData(studentRecord);
+            
+            // Update marks data
+            updateMarksData(studentRecord);
+            
+            // Update total marks data
+            updateTotalMarksData(studentRecord);
+            
+            // Show dashboard
+            document.getElementById('dashboard').style.display = 'block';
+            document.body.scrollTop = 0; // Scroll to top
+            document.documentElement.scrollTop = 0;
+        }
+        
+        // Function to update attendance data in dashboard
+        function updateAttendanceData(studentRecord) {
+            if (!studentRecord.attendance || studentRecord.attendance.length === 0) {
+                document.getElementById('presentCount').textContent = '0%';
+                document.getElementById('presentDays').textContent = '0 days';
+                document.getElementById('absentCount').textContent = '0%';
+                document.getElementById('absentDays').textContent = '0 days';
+                return;
+            }
+            
+            // Calculate attendance statistics
+            const totalDays = studentRecord.attendance.length;
+            const presentDays = studentRecord.attendance.filter(a => a.status === 'present').length;
+            const absentDays = totalDays - presentDays;
+            
+            const presentPercentage = totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0;
+            const absentPercentage = 100 - presentPercentage;
+            
+            document.getElementById('presentCount').textContent = `${presentPercentage}%`;
+            document.getElementById('presentDays').textContent = `${presentDays} days`;
+            document.getElementById('absentCount').textContent = `${absentPercentage}%`;
+            document.getElementById('absentDays').textContent = `${absentDays} days`;
+            
+            // Render attendance chart
+            renderAttendanceChart(studentRecord);
+        }
+        
+        // Function to render attendance chart
+        function renderAttendanceChart(studentRecord) {
+            const ctx = document.getElementById('attendanceChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.attendanceChartInstance) {
+                window.attendanceChartInstance.destroy();
+            }
+            
+            // Prepare data for the last 7 days
+            const labels = [];
+            const presentData = [];
+            const absentData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                
+                labels.push(date.toLocaleDateString('en-US', { weekday: 'short' }));
+                
+                // Check if attendance exists for this date
+                const attendance = studentRecord.attendance.find(a => a.date === dateStr);
+                if (attendance) {
+                    if (attendance.status === 'present') {
+                        presentData.push(1);
+                        absentData.push(0);
+                    } else {
+                        presentData.push(0);
+                        absentData.push(1);
+                    }
+                } else {
+                    presentData.push(0);
+                    absentData.push(0);
+                }
+            }
+            
+            // Create new chart
+            window.attendanceChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Present',
+                            data: presentData,
+                            backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Absent',
+                            data: absentData,
+                            backgroundColor: 'rgba(220, 53, 69, 0.7)',
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return value === 1 ? 'Yes' : 'No';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Last 7 Days Attendance'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Function to update marks data in dashboard
+        function updateMarksData(studentRecord) {
+            if (!studentRecord.marks || studentRecord.marks.length === 0) {
+                document.getElementById('marksTableBody').innerHTML = '<tr><td colspan="6" class="no-data">No marks data available</td></tr>';
+                
+                // Clear performance chart
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+                if (window.performanceChartInstance) {
+                    window.performanceChartInstance.destroy();
+                }
+                
+                return;
+            }
+            
+            // Group marks by subject
+            const subjectMarks = {};
+            studentRecord.marks.forEach(mark => {
+                if (!subjectMarks[mark.subject]) {
+                    subjectMarks[mark.subject] = {
+                        term1: '-',
+                        term2: '-',
+                        term3: '-',
+                        overall: 0,
+                        count: 0
+                    };
+                }
+                
+                // Assign marks to terms based on exam type
+                if (mark.examType === 'Unit Test') {
+                    subjectMarks[mark.subject].term1 = mark.marksObtained;
+                } else if (mark.examType === 'Midterm') {
+                    subjectMarks[mark.subject].term2 = mark.marksObtained;
+                } else if (mark.examType === 'Final') {
+                    subjectMarks[mark.subject].term3 = mark.marksObtained;
+                }
+                
+                // Calculate overall
+                if (mark.marksObtained !== '-') {
+                    subjectMarks[mark.subject].overall += mark.marksObtained;
+                    subjectMarks[mark.subject].count++;
+                }
+            });
+            
+            // Calculate overall average for each subject
+            for (const subject in subjectMarks) {
+                if (subjectMarks[subject].count > 0) {
+                    subjectMarks[subject].overall = Math.round(subjectMarks[subject].overall / subjectMarks[subject].count);
+                } else {
+                    subjectMarks[subject].overall = '-';
+                }
+            }
+            
+            // Populate marks table
+            let tableHTML = '';
+            for (const subject in subjectMarks) {
+                const marks = subjectMarks[subject];
+                const grade = calculateGradeForMarks(marks.overall);
+                
+                tableHTML += `
+                    <tr>
+                        <td class="subject">${subject}</td>
+                        <td>${marks.term1}</td>
+                        <td>${marks.term2}</td>
+                        <td>${marks.term3}</td>
+                        <td>${marks.overall}</td>
+                        <td class="grade">${grade}</td>
+                    </tr>`;
+            }
+            
+            document.getElementById('marksTableBody').innerHTML = tableHTML;
+            
+            // Render performance chart
+            renderPerformanceChartForDashboard(subjectMarks);
+        }
+        
+        // Function to update total marks data in dashboard
+        function updateTotalMarksData(studentRecord) {
+            if (!studentRecord.marks || studentRecord.marks.length === 0) {
+                document.getElementById('totalMarksObtained').textContent = '0';
+                document.getElementById('totalMaxMarks').textContent = '0';
+                document.getElementById('totalPercentage').textContent = '0%';
+                return;
+            }
+            
+            // Calculate total marks obtained and maximum marks
+            let totalMarksObtained = 0;
+            let totalMaxMarks = 0;
+            
+            studentRecord.marks.forEach(mark => {
+                totalMarksObtained += mark.marksObtained;
+                totalMaxMarks += mark.maxMarks;
+            });
+            
+            // Calculate percentage
+            const percentage = totalMaxMarks > 0 ? Math.round((totalMarksObtained / totalMaxMarks) * 100) : 0;
+            
+            // Update the UI
+            document.getElementById('totalMarksObtained').textContent = totalMarksObtained;
+            document.getElementById('totalMaxMarks').textContent = totalMaxMarks;
+            document.getElementById('totalPercentage').textContent = `${percentage}%`;
+        }
+        
+        // Function to render performance chart in dashboard
+        function renderPerformanceChartForDashboard(subjectMarks) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.performanceChartInstance) {
+                window.performanceChartInstance.destroy();
+            }
+            
+            // Prepare data
+            const labels = [];
+            const data = [];
+            
+            for (const subject in subjectMarks) {
+                labels.push(subject);
+                data.push(subjectMarks[subject].overall);
+            }
+            
+            // Create new chart
+            window.performanceChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Subject Performance',
+                        data: data,
+                        backgroundColor: 'rgba(149, 43, 175, 0.2)',
+                        borderColor: 'rgba(149, 43, 175, 0.8)',
+                        pointBackgroundColor: 'rgba(149, 43, 175, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(149, 43, 175, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Subject-wise Performance'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Render records in table
+        function renderRecords(records = null) {
+            const tableBody = document.getElementById('records-body');
+            const noRecords = document.getElementById('no-records');
+            
+            if (!records) {
+                records = getRecords();
+            }
+            
+            tableBody.innerHTML = '';
+            
+            if (records.length === 0) {
+                noRecords.style.display = 'block';
+                return;
+            }
+            
+            noRecords.style.display = 'none';
+            
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${record.id.substring(0, 6)}</td>
+                    <td>${record.studentName}</td>
+                    <td>${getCourseName(record.course)}</td>
+                    <td>${getCourseDuration(record.course)}</td>
+                    <td>${record.dob}</td>
+                    <td>${record.parentPhone}</td>
+                    <td>${record.dateApplied}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit-btn" data-id="${record.id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="action-btn delete-btn" data-id="${record.id}">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update student selectors
+            populateStudentSelectors();
+        }
+        
+        // Populate student selectors based on course filter
+        function populateStudentSelectors() {
+            const records = getRecords();
+            const attendanceSelect = document.getElementById('attendance-student');
+            const marksSelect = document.getElementById('marks-student');
+            const attendanceCourseFilter = document.getElementById('attendance-course-filter').value;
+            const marksCourseFilter = document.getElementById('marks-course-filter').value;
+            
+            // Clear existing options except the first one
+            attendanceSelect.innerHTML = '<option value="">-- Select Student --</option>';
+            marksSelect.innerHTML = '<option value="">-- Select Student --</option>';
+            
+            // Filter records based on course selection
+            const attendanceRecords = attendanceCourseFilter ? 
+                records.filter(r => r.course === attendanceCourseFilter) : records;
+            const marksRecords = marksCourseFilter ? 
+                records.filter(r => r.course === marksCourseFilter) : records;
+            
+            // Populate attendance student selector
+            attendanceRecords.forEach(record => {
+                const option = `<option value="${record.id}">${record.studentName} (${getCourseName(record.course)})</option>`;
+                attendanceSelect.innerHTML += option;
+            });
+            
+            // Populate marks student selector
+            marksRecords.forEach(record => {
+                const option = `<option value="${record.id}">${record.studentName} (${getCourseName(record.course)})</option>`;
+                marksSelect.innerHTML += option;
+            });
+        }
+        
+        // Populate edit form
+        function populateEditForm(id) {
+            const records = getRecords();
+            const record = records.find(r => r.id === id);
+            
+            if (record) {
+                document.getElementById('edit-id').value = record.id;
+                document.getElementById('edit-student-name').value = record.studentName;
+                document.getElementById('edit-dob').value = record.dob;
+                document.getElementById('edit-gender').value = record.gender;
+                document.getElementById('edit-course').value = record.course;
+                document.getElementById('edit-father-name').value = record.fatherName;
+                document.getElementById('edit-mother-name').value = record.motherName;
+                document.getElementById('edit-parent-email').value = record.parentEmail;
+                document.getElementById('edit-parent-phone').value = record.parentPhone;
+                document.getElementById('edit-address').value = record.address;
+                document.getElementById('edit-city').value = record.city;
+                document.getElementById('edit-state').value = record.state;
+                document.getElementById('edit-pincode').value = record.pincode;
+                document.getElementById('edit-qualification').value = record.qualification;
+                document.getElementById('edit-percentage').value = record.percentage;
+                document.getElementById('edit-reason').value = record.reason;
+                
+                document.getElementById('edit-modal').classList.add('active');
+            }
+        }
+        
+        // Search records
+        function searchRecords(query) {
+            const records = getRecords();
+            if (!query) {
+                renderRecords(records);
+                return;
+            }
+            
+            const lowerQuery = query.toLowerCase();
+            const filtered = records.filter(record => 
+                record.studentName.toLowerCase().includes(lowerQuery) ||
+                getCourseName(record.course).toLowerCase().includes(lowerQuery) ||
+                record.parentPhone.includes(lowerQuery) ||
+                record.dateApplied.includes(lowerQuery) ||
+                record.id.includes(lowerQuery)
+            );
+            
+            renderRecords(filtered);
+        }
+        
+        // Export records as CSV
+        function exportRecords() {
+            const records = getRecords();
+            if (records.length === 0) {
+                alert('No records to export');
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = 'ID,Student Name,Date of Birth,Gender,Course,Father Name,Mother Name,Parent Email,Parent Phone,Address,City,State,Pincode,Qualification,Percentage,Reason,Date Applied\n';
+            
+            records.forEach(record => {
+                const row = [
+                    record.id,
+                    `"${record.studentName}"`,
+                    record.dob,
+                    record.gender,
+                    getCourseName(record.course),
+                    `"${record.fatherName}"`,
+                    `"${record.motherName}"`,
+                    record.parentEmail,
+                    record.parentPhone,
+                    `"${record.address}"`,
+                    record.city,
+                    record.state,
+                    record.pincode,
+                    record.qualification,
+                    record.percentage,
+                    `"${record.reason}"`,
+                    record.dateApplied
+                ];
+                
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `student_records_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Attendance functions
+        function addAttendanceRecord(studentId, date, status) {
+            const records = getRecords();
+            const studentIndex = records.findIndex(r => r.id === studentId);
+            
+            if (studentIndex === -1) {
+                alert('Student not found');
+                return false;
+            }
+            
+            // Initialize if not present
+            if (!records[studentIndex].attendance) {
+                records[studentIndex].attendance = [];
+            }
+            
+            // Check if attendance for this date already exists
+            const existingIndex = records[studentIndex].attendance.findIndex(a => a.date === date);
+            
+            if (existingIndex !== -1) {
+                // Update existing record
+                records[studentIndex].attendance[existingIndex].status = status;
+            } else {
+                // Add new record
+                records[studentIndex].attendance.push({ date, status });
+            }
+            
+            saveRecords(records);
+            return true;
+        }
+        
+        function renderAttendanceCalendar(studentId) {
+            const records = getRecords();
+            const student = records.find(r => r.id === studentId);
+            
+            if (!student || !student.attendance || student.attendance.length === 0) {
+                document.getElementById('attendance-calendar-container').innerHTML = 
+                    '<div class="no-data">No attendance records found for this student</div>';
+                return;
+            }
+            
+            // Create a map of attendance by date
+            const attendanceMap = {};
+            student.attendance.forEach(record => {
+                attendanceMap[record.date] = record.status;
+            });
+            
+            // Generate calendar for current month
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            
+            // First day of month
+            const firstDay = new Date(year, month, 1);
+            // Last day of month
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // Start from the first day of the week that the month starts on
+            const startDay = firstDay.getDay();
+            
+            let html = '<div class="attendance-calendar">';
+            
+            // Add day headers
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                html += `<div class="calendar-header">${day}</div>`;
+            });
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startDay; i++) {
+                html += '<div class="calendar-day"></div>';
+            }
+            
+            // Add cells for each day of the month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const status = attendanceMap[dateStr] || '';
+                
+                html += `<div class="calendar-day ${status}">${day}</div>`;
+            }
+            
+            html += '</div>';
+            document.getElementById('attendance-calendar-container').innerHTML = html;
+        }
+        
+        // Marks functions
+        function addMarksRecord(studentId, subject, examType, marksObtained, maxMarks) {
+            const records = getRecords();
+            const studentIndex = records.findIndex(r => r.id === studentId);
+            
+            if (studentIndex === -1) {
+                alert('Student not found');
+                return false;
+            }
+            
+            // Initialize if not present
+            if (!records[studentIndex].marks) {
+                records[studentIndex].marks = [];
+            }
+            
+            // Add new record
+            records[studentIndex].marks.push({
+                subject,
+                examType,
+                marksObtained: parseInt(marksObtained),
+                maxMarks: parseInt(maxMarks),
+                dateAdded: new Date().toISOString().split('T')[0]
+            });
+            
+            saveRecords(records);
+            return true;
+        }
+        
+        function calculateGrade(percentage) {
+            if (percentage >= 90) return { grade: 'A', class: 'grade-a' };
+            if (percentage >= 80) return { grade: 'B', class: 'grade-b' };
+            if (percentage >= 70) return { grade: 'C', class: 'grade-c' };
+            if (percentage >= 60) return { grade: 'D', class: 'grade-d' };
+            return { grade: 'F', class: 'grade-f' };
+        }
+        
+        function renderMarksTable(studentId) {
+            const records = getRecords();
+            const student = records.find(r => r.id === studentId);
+            
+            if (!student || !student.marks || student.marks.length === 0) {
+                document.getElementById('marks-table-container').innerHTML = 
+                    '<div class="no-data">No marks records found for this student</div>';
+                document.getElementById('performance-chart-container').innerHTML = 
+                    '<div class="no-data">No marks records found for this student</div>';
+                return;
+            }
+            
+            // Group marks by subject
+            const subjectMarks = {};
+            student.marks.forEach(record => {
+                if (!subjectMarks[record.subject]) {
+                    subjectMarks[record.subject] = [];
+                }
+                subjectMarks[record.subject].push(record);
+            });
+            
+            // Create table
+            let html = '<div class="marks-table-container"><table class="marks-table">';
+            html += '<thead><tr><th>Subject</th><th>Exam Type</th><th>Marks Obtained</th><th>Max Marks</th><th>Percentage</th><th>Grade</th></tr></thead><tbody>';
+            
+            for (const subject in subjectMarks) {
+                subjectMarks[subject].forEach(record => {
+                    const percentage = (record.marksObtained / record.maxMarks * 100).toFixed(2);
+                    const gradeInfo = calculateGrade(parseFloat(percentage));
+                    
+                    html += `<tr>
+                        <td>${subject}</td>
+                        <td>${record.examType}</td>
+                        <td>${record.marksObtained}</td>
+                        <td>${record.maxMarks}</td>
+                        <td>${percentage}%</td>
+                        <td><span class="grade-badge ${gradeInfo.class}">${gradeInfo.grade}</span></td>
+                    </tr>`;
+                });
+            }
+            
+            html += '</tbody></table></div>';
+            document.getElementById('marks-table-container').innerHTML = html;
+            
+            // Render performance chart
+            renderPerformanceChart(subjectMarks);
+        }
+        
+        function renderPerformanceChart(subjectMarks) {
+            // Calculate average percentage for each subject
+            const subjectAverages = {};
+            
+            for (const subject in subjectMarks) {
+                let totalPercentage = 0;
+                let count = 0;
+                
+                subjectMarks[subject].forEach(record => {
+                    totalPercentage += (record.marksObtained / record.maxMarks * 100);
+                    count++;
+                });
+                
+                subjectAverages[subject] = totalPercentage / count;
+            }
+            
+            // Create chart
+            const subjects = Object.keys(subjectAverages);
+            if (subjects.length === 0) {
+                document.getElementById('performance-chart-container').innerHTML = 
+                    '<div class="no-data">No marks records found for this student</div>';
+                return;
+            }
+            
+            const maxPercentage = Math.max(...Object.values(subjectAverages));
+            const chartHeight = 250;
+            
+            let html = '<div class="performance-chart">';
+            
+            subjects.forEach((subject, index) => {
+                const percentage = subjectAverages[subject];
+                const barHeight = (percentage / maxPercentage) * chartHeight;
+                const leftPosition = (index * 80) + 40;
+                
+                html += `
+                    <div class="chart-bar" style="height: ${barHeight}px; left: ${leftPosition}px;">
+                        <div class="chart-value">${percentage.toFixed(1)}%</div>
+                    </div>
+                    <div class="chart-label" style="left: ${leftPosition}px;">${subject.substring(0, 3)}</div>
+                `;
+            });
+            
+            html += '</div>';
+            document.getElementById('performance-chart-container').innerHTML = html;
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render records on page load
+            renderRecords();
+            
+            // Form submission
+            document.getElementById('submit-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const studentName = document.getElementById('student-name').value;
+                const dob = document.getElementById('dob').value;
+                const gender = document.getElementById('gender').value;
+                const course = document.getElementById('course').value;
+                const fatherName = document.getElementById('father-name').value;
+                const motherName = document.getElementById('mother-name').value;
+                const parentEmail = document.getElementById('parent-email').value;
+                const parentPhone = document.getElementById('parent-phone').value;
+                const address = document.getElementById('address').value;
+                const city = document.getElementById('city').value;
+                const state = document.getElementById('state').value;
+                const pincode = document.getElementById('pincode').value;
+                const qualification = document.getElementById('qualification').value;
+                const percentage = document.getElementById('percentage').value;
+                const reason = document.getElementById('reason').value;
+                
+                // Validate required fields
+                if (!studentName || !dob || !gender || !course || 
+                    !fatherName || !motherName || !parentEmail || !parentPhone || 
+                    !address || !city || !state || !pincode || !qualification || !percentage || !reason) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Create record object
+                const record = {
+                    studentName,
+                    dob,
+                    gender,
+                    course,
+                    fatherName,
+                    motherName,
+                    parentEmail,
+                    parentPhone,
+                    address,
+                    city,
+                    state,
+                    pincode,
+                    qualification,
+                    percentage,
+                    reason
+                };
+                
+                // Add record with duplicate check
+                const result = addRecord(record);
+                
+                if (result.success) {
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.textContent = result.message;
+                    successMessage.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #28a745;
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 5px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.style.animation = 'slideOut 0.3s ease-out';
+                        setTimeout(() => {
+                            document.body.removeChild(successMessage);
+                        }, 300);
+                    }, 3000);
+                    
+                    // Reset form
+                    document.getElementById('student-name').value = '';
+                    document.getElementById('dob').value = '';
+                    document.getElementById('gender').value = '';
+                    document.getElementById('course').value = '';
+                    document.getElementById('father-name').value = '';
+                    document.getElementById('mother-name').value = '';
+                    document.getElementById('parent-email').value = '';
+                    document.getElementById('parent-phone').value = '';
+                    document.getElementById('address').value = '';
+                    document.getElementById('city').value = '';
+                    document.getElementById('state').value = '';
+                    document.getElementById('pincode').value = '';
+                    document.getElementById('qualification').value = '';
+                    document.getElementById('percentage').value = '';
+                    document.getElementById('reason').value = '';
+                    
+                    // Scroll to records section
+                    document.getElementById('records').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Refresh records table
+                    renderRecords();
+                } else {
+                    // Show error message
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.textContent = result.message;
+                    errorMessage.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #dc3545;
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 5px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    
+                    document.body.appendChild(errorMessage);
+                    
+                    // Remove message after 3 seconds
+                    setTimeout(() => {
+                        errorMessage.style.animation = 'slideOut 0.3s ease-out';
+                        setTimeout(() => {
+                            document.body.removeChild(errorMessage);
+                        }, 300);
+                    }, 3000);
+                }
+            });
+            
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', function(e) {
+                searchRecords(e.target.value);
+            });
+            
+            // Export button
+            document.getElementById('export-btn').addEventListener('click', exportRecords);
+            
+            // Clear button
+            document.getElementById('clear-btn').addEventListener('click', function() {
+                if (clearAllRecords()) {
+                    renderRecords();
+                }
+            });
+            
+            // Edit and delete buttons (using event delegation)
+            document.getElementById('records-body').addEventListener('click', function(e) {
+                if (e.target.closest('.edit-btn')) {
+                    const id = e.target.closest('.edit-btn').dataset.id;
+                    populateEditForm(id);
+                } else if (e.target.closest('.delete-btn')) {
+                    const id = e.target.closest('.delete-btn').dataset.id;
+                    if (confirm('Are you sure you want to delete this record?')) {
+                        deleteRecord(id);
+                        renderRecords();
+                    }
+                }
+            });
+            
+            // Edit form submission
+            document.getElementById('edit-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('edit-id').value;
+                const records = getRecords();
+                const index = records.findIndex(r => r.id === id);
+                
+                if (index !== -1) {
+                    // Create updated record object
+                    const updatedRecord = {
+                        id,
+                        studentName: document.getElementById('edit-student-name').value,
+                        dob: document.getElementById('edit-dob').value,
+                        gender: document.getElementById('edit-gender').value,
+                        course: document.getElementById('edit-course').value,
+                        fatherName: document.getElementById('edit-father-name').value,
+                        motherName: document.getElementById('edit-mother-name').value,
+                        parentEmail: document.getElementById('edit-parent-email').value,
+                        parentPhone: document.getElementById('edit-parent-phone').value,
+                        address: document.getElementById('edit-address').value,
+                        city: document.getElementById('edit-city').value,
+                        state: document.getElementById('edit-state').value,
+                        pincode: document.getElementById('edit-pincode').value,
+                        qualification: document.getElementById('edit-qualification').value,
+                        percentage: document.getElementById('edit-percentage').value,
+                        reason: document.getElementById('edit-reason').value,
+                        dateApplied: records[index].dateApplied,
+                        attendance: records[index].attendance || [],
+                        marks: records[index].marks || []
+                    };
+                    
+                    // Update record with duplicate check
+                    const result = updateRecord(updatedRecord);
+                    
+                    if (result.success) {
+                        renderRecords();
+                        document.getElementById('edit-modal').classList.remove('active');
+                        
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'success-message';
+                        successMessage.textContent = result.message;
+                        successMessage.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: #28a745;
+                            color: white;
+                            padding: 15px 25px;
+                            border-radius: 5px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            z-index: 1000;
+                            animation: slideIn 0.3s ease-out;
+                        `;
+                        
+                        document.body.appendChild(successMessage);
+                        
+                        // Remove message after 3 seconds
+                        setTimeout(() => {
+                            successMessage.style.animation = 'slideOut 0.3s ease-out';
+                            setTimeout(() => {
+                                document.body.removeChild(successMessage);
+                            }, 300);
+                        }, 3000);
+                    } else {
+                        // Show error message
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'error-message';
+                        errorMessage.textContent = result.message;
+                        errorMessage.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: #dc3545;
+                            color: white;
+                            padding: 15px 25px;
+                            border-radius: 5px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                            z-index: 1000;
+                            animation: slideIn 0.3s ease-out;
+                        `;
+                        
+                        document.body.appendChild(errorMessage);
+                        
+                        // Remove message after 3 seconds
+                        setTimeout(() => {
+                            errorMessage.style.animation = 'slideOut 0.3s ease-out';
+                            setTimeout(() => {
+                                document.body.removeChild(errorMessage);
+                            }, 300);
+                        }, 3000);
+                    }
+                }
+            });
+            
+            // Close edit modal
+            document.getElementById('close-edit-modal').addEventListener('click', function() {
+                document.getElementById('edit-modal').classList.remove('active');
+            });
+            
+            document.getElementById('cancel-edit').addEventListener('click', function() {
+                document.getElementById('edit-modal').classList.remove('active');
+            });
+            
+            // Attendance functionality
+            document.getElementById('attendance-course-filter').addEventListener('change', populateStudentSelectors);
+            
+            document.getElementById('attendance-student').addEventListener('change', function(e) {
+                if (e.target.value) {
+                    renderAttendanceCalendar(e.target.value);
+                } else {
+                    document.getElementById('attendance-calendar-container').innerHTML = 
+                        '<div class="no-data">Select a student to view attendance calendar</div>';
+                }
+            });
+            
+            document.getElementById('mark-attendance-btn').addEventListener('click', function() {
+                const studentId = document.getElementById('attendance-student').value;
+                const date = document.getElementById('attendance-date').value;
+                const status = document.getElementById('attendance-status').value;
+                
+                if (!studentId) {
+                    alert('Please select a student');
+                    return;
+                }
+                
+                if (!date) {
+                    alert('Please select a date');
+                    return;
+                }
+                
+                if (addAttendanceRecord(studentId, date, status)) {
+                    renderAttendanceCalendar(studentId);
+                    
+                    // Reset form
+                    document.getElementById('attendance-date').value = '';
+                    document.getElementById('attendance-status').value = 'present';
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.textContent = 'Attendance marked successfully!';
+                    successMessage.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #28a745;
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 5px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.style.animation = 'slideOut 0.3s ease-out';
+                        setTimeout(() => {
+                            document.body.removeChild(successMessage);
+                        }, 300);
+                    }, 3000);
+                }
+            });
+            
+            // Marks functionality
+            document.getElementById('marks-course-filter').addEventListener('change', populateStudentSelectors);
+            
+            document.getElementById('marks-student').addEventListener('change', function(e) {
+                if (e.target.value) {
+                    renderMarksTable(e.target.value);
+                } else {
+                    document.getElementById('marks-table-container').innerHTML = 
+                        '<div class="no-data">Select a student to view marks</div>';
+                    document.getElementById('performance-chart-container').innerHTML = 
+                        '<div class="no-data">Select a student to view performance chart</div>';
+                }
+            });
+            
+            document.getElementById('add-marks-btn').addEventListener('click', function() {
+                const studentId = document.getElementById('marks-student').value;
+                const subject = document.getElementById('subject').value;
+                const examType = document.getElementById('exam-type').value;
+                const marksObtained = document.getElementById('marks-obtained').value;
+                const maxMarks = document.getElementById('max-marks').value;
+                
+                if (!studentId) {
+                    alert('Please select a student');
+                    return;
+                }
+                
+                if (!marksObtained || marksObtained < 0) {
+                    alert('Please enter valid marks');
+                    return;
+                }
+                
+                if (parseInt(marksObtained) > parseInt(maxMarks)) {
+                    alert('Marks obtained cannot exceed maximum marks');
+                    return;
+                }
+                
+                if (addMarksRecord(studentId, subject, examType, marksObtained, maxMarks)) {
+                    renderMarksTable(studentId);
+                    
+                    // Reset form
+                    document.getElementById('marks-obtained').value = '';
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.textContent = 'Marks added successfully!';
+                    successMessage.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #28a745;
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 5px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.style.animation = 'slideOut 0.3s ease-out';
+                        setTimeout(() => {
+                            document.body.removeChild(successMessage);
+                        }, 300);
+                    }, 3000);
+                }
+            });
+            
+            // FAQ accordion
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const isActive = faqItem.classList.contains('active');
+                    
+                    // Close all FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Open clicked item if it wasn't active
+                    if (!isActive) {
+                        faqItem.classList.add('active');
+                    }
+                });
+            });
+            
+            // Login modal functionality
+            const loginModal = document.getElementById('loginModal');
+            const modalCloseBtn = loginModal.querySelector('.close-modal');
+            
+            // Login option clicks
+            document.querySelectorAll('.login-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const loginType = this.dataset.type;
+                    
+                    // Show login modal
+                    loginModal.style.display = 'flex';
+                    
+                    // Set active tab based on login type
+                    document.querySelectorAll('.login-tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                        if (btn.dataset.tab === loginType) {
+                            btn.classList.add('active');
+                        }
+                    });
+                    
+                    // Show corresponding tab content
+                    document.querySelectorAll('.login-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${loginType}-tab`) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Update modal title
+                    const titles = {
+                        'parent': 'Parent Login',
+                        'student': 'Student Login',
+                        'admin': 'Admin Login'
+                    };
+                    document.getElementById('modalTitle').textContent = titles[loginType];
+                });
+            });
+            
+            // Close modal when clicking on close button
+            modalCloseBtn.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            
+            // Login tab switching
+            document.querySelectorAll('.login-tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Update active tab button
+                    document.querySelectorAll('.login-tab-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    document.querySelectorAll('.login-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    
+                    // Update modal title
+                    const titles = {
+                        'parent': 'Parent Login',
+                        'student': 'Student Login',
+                        'admin': 'Admin Login'
+                    };
+                    document.getElementById('modalTitle').textContent = titles[tabId];
+                });
+            });
+            
+            // Student login form submission
+            document.getElementById('studentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const studentName = document.getElementById('studentName').value;
+                const studentCourse = document.getElementById('studentCourse').value;
+                const studentDOB = document.getElementById('studentDOB').value;
+                
+                // Find student record
+                const studentRecord = findStudentRecord(studentName, studentCourse);
+                
+                if (studentRecord && studentRecord.dob === studentDOB) {
+                    // Login successful
+                    loginModal.style.display = 'none';
+                    updateDashboard(studentRecord);
+                    
+                    // Reset form
+                    this.reset();
+                } else {
+                    // Login failed
+                    alert('Invalid login credentials. Please check your name, course, and date of birth.');
+                }
+            });
+            
+            // Parent login form submission
+            document.getElementById('parentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const parentName = document.getElementById('parentName').value;
+                const relationship = document.getElementById('relationship').value;
+                const childName = document.getElementById('childName').value;
+                const childCourse = document.getElementById('childCourse').value;
+                
+                // Find student record
+                const studentRecord = findStudentRecord(childName, childCourse);
+                
+                if (studentRecord) {
+                    // Verify parent information
+                    let parentVerified = false;
+                    
+                    if (relationship === 'father' && studentRecord.fatherName === parentName) {
+                        parentVerified = true;
+                    } else if (relationship === 'mother' && studentRecord.motherName === parentName) {
+                        parentVerified = true;
+                    } else if (relationship === 'guardian') {
+                        // For guardians, we'll just verify that the student exists
+                        parentVerified = true;
+                    }
+                    
+                    if (parentVerified) {
+                        // Login successful
+                        loginModal.style.display = 'none';
+                        updateDashboard(studentRecord);
+                        
+                        // Reset form
+                        this.reset();
+                    } else {
+                        // Login failed
+                        alert('Invalid parent information. Please check your name and relationship to the student.');
+                    }
+                } else {
+                    // Login failed
+                    alert('Student not found. Please check the student name and course.');
+                }
+            });
+            
+            // Admin login form submission
+            document.getElementById('adminForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('adminUsername').value;
+                const password = document.getElementById('adminPassword').value;
+                
+                // Simple admin authentication (in a real app, this would be server-side)
+                if (username === 'admin' && password === 'admin123') {
+                    // Login successful
+                    loginModal.style.display = 'none';
+                    
+                    // Show admin dashboard or redirect to admin section
+                    document.getElementById('records').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Reset form
+                    this.reset();
+                } else {
+                    // Login failed
+                    alert('Invalid admin credentials. Please try again.');
+                }
+            });
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 992 && 
+                    !sidebar.contains(e.target) && 
+                    !menuToggle.contains(e.target) && 
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            });
+            
+            // Login dropdown functionality
+            const loginBtn = document.getElementById('loginBtn');
+            const loginDropdown = document.getElementById('loginDropdown');
+            loginBtn.addEventListener('click', () => {
+                loginDropdown.classList.toggle('active');
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Account for fixed header height
+                        const navbarHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.offsetTop - navbarHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (sidebar.classList.contains('active')) {
+                            sidebar.classList.remove('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

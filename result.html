@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Portal | Sir C.R. Reddy College of Pharmaceutical Sciences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a9efb;
+            --secondary-color: #fe5a5a;
+            --accent-color: #24d5e8;
+            --light-color: #f1faee;
+            --dark-color: #101110;
+            --gradient-1: linear-gradient(135deg, #952baf, #457b9d);
+            --gradient-2: linear-gradient(135deg, #e63946, #f3722c);
+            --result-gradient: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            --result-header: linear-gradient(135deg, #1976d2, #2196f3);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Loading animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Header Login Dropdown */
+        .header-login {
+            position: relative;
+        }
+        
+        .login-dropdown-btn {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-dropdown-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+        
+        .login-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .login-dropdown-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .login-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .login-dropdown-item:hover {
+            background: #f8f9fa;
+            color: var(--secondary-color);
+            padding-left: 20px;
+        }
+        
+        .login-dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--gradient-1);
+            color: white;
+            z-index: 999;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding-top: 100px;
+        }
+        .nav-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-menu a i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+        .nav-menu a::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .nav-menu a:hover::before,
+        .nav-menu a.active::before {
+            transform: scaleY(1);
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 35px;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding-top: 100px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/seed/pharmacy-results/1600/600.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        
+        /* Result Portal Section */
+        .result-portal {
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--accent-color);
+        }
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Course Tabs */
+        .course-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        .course-tab {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .course-tab.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        .course-tab:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Course Content */
+        .course-content {
+            display: none;
+        }
+        .course-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Year Grid */
+        .year-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        /* Year Card */
+        .year-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--accent-color);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .year-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .year-card.new {
+            border-top: 4px solid var(--secondary-color);
+        }
+        .year-card.new::after {
+            content: "NEW";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .year-icon {
+            background: var(--gradient-1);
+            color: white;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .year-card:hover .year-icon {
+            transform: scale(1.05);
+        }
+        .year-icon i {
+            font-size: 40px;
+            transition: transform 0.5s ease;
+        }
+        .year-card:hover .year-icon i {
+            transform: scale(1.2);
+        }
+        .year-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .year-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        .year-subtitle {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .view-results-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--gradient-2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .view-results-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .view-results-btn:hover::before {
+            transform: translateX(100%);
+        }
+        .view-results-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close:hover {
+            color: var(--secondary-color);
+        }
+        .modal-header {
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .modal-header p {
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
+        }
+        .submit-btn {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .submit-btn:hover::before {
+            transform: translateX(100%);
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Result Display Section */
+        .result-display {
+            display: none;
+            background: var(--result-gradient);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .result-display.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #90caf9;
+        }
+        .result-header h2 {
+            color: var(--primary-color);
+        }
+        .print-btn {
+            background: var(--result-header);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .info-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+        .info-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .info-item p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .result-table th, .result-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1f5fe;
+        }
+        .result-table th {
+            background: var(--result-header);
+            color: white;
+            font-weight: 600;
+        }
+        .result-table tr:last-child td {
+            border-bottom: none;
+        }
+        .result-table tr:hover {
+            background-color: rgba(225, 245, 254, 0.5);
+        }
+        .grade {
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+            display: inline-block;
+        }
+        .grade.a {
+            background-color: #28a745;
+        }
+        .grade.b {
+            background-color: #17a2b8;
+        }
+        .grade.c {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .grade.d {
+            background-color: #dc3545;
+        }
+        .result-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #90caf9;
+        }
+        .summary-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .summary-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        .summary-item p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        .footer-section p, .footer-section li {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content,
+            footer {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .course-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .course-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: none;
+                border-right: 3px solid transparent;
+            }
+            
+            .course-tab.active {
+                border-right: 3px solid var(--secondary-color);
+                border-bottom: none;
+            }
+            
+            .year-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-summary {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .header-login {
+                display: none;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+        }
+         .login-section {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .login-btn {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .login-btn.student {
+            border-left: 3px solid var(--secondary-color);
+        }
+        .login-btn.parent {
+            border-left: 3px solid #2a9d8f;
+        }
+        .login-btn.library {
+            border-left: 3px solid #577590;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Loading animation -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <img src="https://picsum.photos/seed/college-logo/120/120.jpg" alt="College Logo">
+                <div class="logo-text">
+                   <h1>Sir C.R. Reddy College</h1>
+                    <p>of Pharmaceutical Sciences</p>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> +91 8812 234 567</p>
+                <p><i class="fas fa-envelope"></i> info@crreddypharmacy.edu.in</p>
+                
+                <!-- Header Login Dropdown -->
+                <div class="header-login">
+                    <button class="login-dropdown-btn" id="headerLoginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="login-dropdown" id="headerLoginDropdown">
+                        <a href="studentlogin.html" class="login-dropdown-item">
+                            <i class="fas fa-user-graduate"></i> Student Login
+                        </a>
+                        <a href="studentlogin.html" class="login-dropdown-item">
+                            <i class="fas fa-user-friends"></i> Parent Login
+                        </a>
+                        <a href="libraray.html" class="login-dropdown-item">
+                            <i class="fas fa-book"></i> Library Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+            <li><a href="faculty.html"><i class="fas fa-chalkboard-teacher"></i> Faculty</a></li>
+            <li><a href="admission.html"><i class="fas fa-book"></i> Admission</a></li>
+            <li><a href="Circulars.html"><i class="fas fa-calendar"></i>Circulars</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                      <li><a href="result.html"><i class="fas fa-chart-bar"></i> Results Portal</a></li>
+        </ul>
+           
+        <div class="login-section">
+            <h3 style="margin-bottom: 15px; font-size: 16px;">Quick Login</h3>
+            <div class="login-buttons">
+                <button class="login-btn student">
+                    <a href="studentrecord.html" style="text-decoration: none; color: white;"><i class="fas fa-user-graduate"></i> Student Login </a>
+                </button>
+                <button class="login-btn parent">
+                  <a href="studentrecord.html" style="text-decoration: none; color: white;"> <i class="fas fa-user-friends"></i> Parent Login</a> 
+                </button>
+                <button class="login-btn library">
+                   <a href="libraray.html" style="text-decoration: none; color: white;"> <i class="fas fa-book"></i> Library Login</a> 
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Result Portal</h2>
+                <p>Access your examination results online</p>
+            </div>
+        </section>
+        
+        <!-- Result Portal Section -->
+        <section class="result-portal">
+            <div class="container">
+                <h2 class="section-title">Course Results</h2>
+                
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> Instructions</h3>
+                    <ol>
+                        <li>Select your course from the tabs below</li>
+                        <li>Choose the academic year you want to view results for</li>
+                        <li>Click on "View Results" to access your examination results</li>
+                        <li>You will need to enter your name, hall ticket number and Aadhar number to view your results</li>
+                        <li>Results are updated as soon as they are officially declared by the examination department</li>
+                    </ol>
+                </div>
+                
+                <!-- Course Tabs -->
+                <div class="course-tabs">
+                    <div class="course-tab active" data-course="bpharm">B.Pharm</div>
+                    <div class="course-tab" data-course="mpharm">M.Pharm</div>
+                    <div class="course-tab" data-course="pharmd">Pharm.D</div>
+                </div>
+                
+                <!-- B.Pharm Content -->
+                <div class="course-content active" id="bpharm">
+                    <div class="year-grid">
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 1st Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="1st Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 2nd Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="2nd Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 3rd Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="3rd Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 4th Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="4th Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 1st Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="1st Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 2nd Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="2nd Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 3rd Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="3rd Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">B.Pharm 4th Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="B.Pharm" data-year="4th Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- M.Pharm Content -->
+                <div class="course-content" id="mpharm">
+                    <div class="year-grid">
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">M.Pharm 1st Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="M.Pharm" data-year="1st Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">M.Pharm 2nd Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="M.Pharm" data-year="2nd Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">M.Pharm 1st Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="M.Pharm" data-year="1st Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">M.Pharm 2nd Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="M.Pharm" data-year="2nd Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pharm.D Content -->
+                <div class="course-content" id="pharmd">
+                    <div class="year-grid">
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 1st Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="1st Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 2nd Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="2nd Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 3rd Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="3rd Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 4th Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="4th Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 5th Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="5th Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card new">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 6th Year</h3>
+                                <p class="year-subtitle">2024-2025</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="6th Year" data-academic-year="2024-2025">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 1st Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="1st Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 2nd Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="2nd Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 3rd Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="3rd Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 4th Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="4th Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 5th Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="5th Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                        
+                        <div class="year-card">
+                            <div class="year-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="year-content">
+                                <h3 class="year-title">Pharm.D 6th Year</h3>
+                                <p class="year-subtitle">2023-2024</p>
+                                <a href="#" class="view-results-btn" data-course="Pharm.D" data-year="6th Year" data-academic-year="2023-2024">View Results</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Result Display Section -->
+                <div class="result-display" id="resultDisplay">
+                    <div class="result-header">
+                        <h2>Examination Results</h2>
+                        <button class="print-btn" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Result
+                        </button>
+                    </div>
+                    
+                    <div class="student-info">
+                        <div class="info-item">
+                            <h4>Student Name</h4>
+                            <p id="displayName">John Doe</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Hall Ticket Number</h4>
+                            <p id="displayHallTicket">BPH2023001</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Course</h4>
+                            <p id="displayCourse">B.Pharm</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Year</h4>
+                            <p id="displayYear">1st Year</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Academic Year</h4>
+                            <p id="displayAcademicYear">2024-2025</p>
+                        </div>
+                        <div class="info-item">
+                            <h4>Result Status</h4>
+                            <p id="displayResultStatus">PASS</p>
+                        </div>
+                    </div>
+                    
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Internal Marks</th>
+                                <th>External Marks</th>
+                                <th>Total Marks</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultTableBody">
+                            <!-- Table rows will be dynamically generated based on the selected course and year -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="result-summary">
+                        <div class="summary-item">
+                            <h3>Total Marks</h3>
+                            <p id="displayTotalMarks">505</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Percentage</h3>
+                            <p id="displayPercentage">84.17%</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>SGPA</h3>
+                            <p id="displaySGPA">8.5</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Result</h3>
+                            <p id="displayResult">PASS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Result Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>View Results</h2>
+                <p>Enter your details to view your examination results</p>
+            </div>
+            <form id="resultForm">
+                <div class="form-group">
+                    <label for="modalStudentName">Student Name</label>
+                    <input type="text" id="modalStudentName" name="studentName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="modalHallTicket">Hall Ticket Number</label>
+                    <input type="text" id="modalHallTicket" name="hallTicket" placeholder="Enter your hall ticket number" required>
+                </div>
+                <div class="form-group">
+                    <label for="modalAadhar">Aadhar Number</label>
+                    <input type="text" id="modalAadhar" name="aadhar" placeholder="Enter your Aadhar number" required>
+                </div>
+                <input type="hidden" id="selectedCourse" name="course">
+                <input type="hidden" id="selectedYear" name="year">
+                <input type="hidden" id="selectedAcademicYear" name="academicYear">
+                <button type="submit" class="submit-btn">View Results</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Sir C.R. Reddy College of Pharmaceutical Sciences is a premier institution dedicated to excellence in pharmaceutical education and research.</p>
+                <p>Established in 2007, we have been nurturing skilled pharmacists who contribute significantly to the healthcare sector.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Faculty</a></li>
+                    <li><a href="#">Research</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> P33G+HQH, GNT Rd, Santhi Nagar, Eluru, Andhra Pradesh - 534007</p>
+                <p><i class="fas fa-phone"></i> +91 8812-234567</p>
+                <p><i class="fas fa-envelope"></i> info@scrreddypharmacy.edu.in</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Sir C.R. Reddy College of Pharmaceutical Sciences. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', () => {
+            // Hide loader
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 500);
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const footer = document.querySelector('footer');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            
+            // Adjust main content and footer margin when sidebar is toggled
+            if (window.innerWidth <= 992) {
+                if (sidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden'; // Prevent body scroll when sidebar is open
+                } else {
+                    document.body.style.overflow = ''; // Restore body scroll
+                }
+            }
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                document.body.style.overflow = ''; // Restore body scroll
+            }
+        });
+        
+        // Header login dropdown functionality
+        const headerLoginBtn = document.getElementById('headerLoginBtn');
+        const headerLoginDropdown = document.getElementById('headerLoginDropdown');
+        
+        headerLoginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            headerLoginDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            headerLoginDropdown.classList.remove('active');
+        });
+        
+        // Prevent dropdown from closing when clicking inside
+        headerLoginDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // Back to top functionality
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', () => {
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        // Course Tab Functionality
+        const courseTabs = document.querySelectorAll('.course-tab');
+        const courseContents = document.querySelectorAll('.course-content');
+        
+        courseTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                courseTabs.forEach(t => t.classList.remove('active'));
+                courseContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const courseId = tab.getAttribute('data-course');
+                document.getElementById(courseId).classList.add('active');
+            });
+        });
+        
+        // View Results Button Click
+        const modal = document.getElementById('resultModal');
+        const resultForm = document.getElementById('resultForm');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const closeBtn = document.querySelector('.close');
+        
+        document.querySelectorAll('.view-results-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Get course and year information
+                const course = button.getAttribute('data-course');
+                const year = button.getAttribute('data-year');
+                const academicYear = button.getAttribute('data-academic-year');
+                
+                // Set hidden form values
+                document.getElementById('selectedCourse').value = course;
+                document.getElementById('selectedYear').value = year;
+                document.getElementById('selectedAcademicYear').value = academicYear;
+                
+                // Show modal
+                modal.style.display = 'block';
+            });
+        });
+        
+        // Close modal
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Sample result data for different courses and years
+        const resultData = {
+            'B.Pharm': {
+                '1st Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PH101', name: 'Pharmaceutics I', internal: 25, external: 65, total: 90, grade: 'A' },
+                            { code: 'PH102', name: 'Pharmaceutical Chemistry I', internal: 22, external: 60, total: 82, grade: 'B' },
+                            { code: 'PH103', name: 'Pharmacology I', internal: 24, external: 70, total: 94, grade: 'A' },
+                            { code: 'PH104', name: 'Pharmacognosy I', internal: 20, external: 55, total: 75, grade: 'C' },
+                            { code: 'PH105', name: 'Biochemistry', internal: 23, external: 62, total: 85, grade: 'B' },
+                            { code: 'PH106', name: 'Human Anatomy & Physiology', internal: 21, external: 58, total: 79, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PH101', name: 'Pharmaceutics I', internal: 24, external: 68, total: 92, grade: 'A' },
+                            { code: 'PH102', name: 'Pharmaceutical Chemistry I', internal: 23, external: 65, total: 88, grade: 'B' },
+                            { code: 'PH103', name: 'Pharmacology I', internal: 25, external: 72, total: 97, grade: 'A' },
+                            { code: 'PH104', name: 'Pharmacognosy I', internal: 22, external: 60, total: 82, grade: 'B' },
+                            { code: 'PH105', name: 'Biochemistry', internal: 21, external: 64, total: 85, grade: 'B' },
+                            { code: 'PH106', name: 'Human Anatomy & Physiology', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '2nd Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PH201', name: 'Pharmaceutics II', internal: 24, external: 68, total: 92, grade: 'A' },
+                            { code: 'PH202', name: 'Pharmaceutical Chemistry II', internal: 22, external: 65, total: 87, grade: 'B' },
+                            { code: 'PH203', name: 'Pharmacology II', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PH204', name: 'Pharmacognosy II', internal: 21, external: 62, total: 83, grade: 'B' },
+                            { code: 'PH205', name: 'Pharmaceutical Analysis', internal: 25, external: 72, total: 97, grade: 'A' },
+                            { code: 'PH206', name: 'Pharmaceutical Microbiology', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PH201', name: 'Pharmaceutics II', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PH202', name: 'Pharmaceutical Chemistry II', internal: 24, external: 68, total: 92, grade: 'A' },
+                            { code: 'PH203', name: 'Pharmacology II', internal: 22, external: 66, total: 88, grade: 'B' },
+                            { code: 'PH204', name: 'Pharmacognosy II', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PH205', name: 'Pharmaceutical Analysis', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PH206', name: 'Pharmaceutical Microbiology', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '3rd Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PH301', name: 'Pharmaceutics III', internal: 24, external: 70, total: 94, grade: 'A' },
+                            { code: 'PH302', name: 'Pharmaceutical Chemistry III', internal: 23, external: 68, total: 91, grade: 'A' },
+                            { code: 'PH303', name: 'Pharmacology III', internal: 22, external: 65, total: 87, grade: 'B' },
+                            { code: 'PH304', name: 'Pharmacognosy III', internal: 21, external: 63, total: 84, grade: 'B' },
+                            { code: 'PH305', name: 'Pharmaceutical Engineering', internal: 25, external: 72, total: 97, grade: 'A' },
+                            { code: 'PH306', name: 'Pharmacy Practice', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PH301', name: 'Pharmaceutics III', internal: 25, external: 72, total: 97, grade: 'A' },
+                            { code: 'PH302', name: 'Pharmaceutical Chemistry III', internal: 24, external: 70, total: 94, grade: 'A' },
+                            { code: 'PH303', name: 'Pharmacology III', internal: 23, external: 68, total: 91, grade: 'A' },
+                            { code: 'PH304', name: 'Pharmacognosy III', internal: 22, external: 65, total: 87, grade: 'B' },
+                            { code: 'PH305', name: 'Pharmaceutical Engineering', internal: 21, external: 64, total: 85, grade: 'B' },
+                            { code: 'PH306', name: 'Pharmacy Practice', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '4th Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PH401', name: 'Pharmaceutics IV', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PH402', name: 'Pharmaceutical Chemistry IV', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PH403', name: 'Pharmacology IV', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PH404', name: 'Pharmacognosy IV', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PH405', name: 'Pharmaceutical Biotechnology', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PH406', name: 'Clinical Pharmacy', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PH401', name: 'Pharmaceutics IV', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PH402', name: 'Pharmaceutical Chemistry IV', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PH403', name: 'Pharmacology IV', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PH404', name: 'Pharmacognosy IV', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PH405', name: 'Pharmaceutical Biotechnology', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PH406', name: 'Clinical Pharmacy', internal: 20, external: 64, total: 84, grade: 'B' }
+                        ]
+                    }
+                }
+            },
+            'M.Pharm': {
+                '1st Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'MP101', name: 'Advanced Pharmaceutics', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'MP102', name: 'Advanced Pharmaceutical Analysis', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'MP103', name: 'Pharmaceutical Regulatory Affairs', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'MP104', name: 'Pharmaceutical Biotechnology', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'MP105', name: 'Pharmacotherapeutics', internal: 21, external: 65, total: 86, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'MP101', name: 'Advanced Pharmaceutics', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'MP102', name: 'Advanced Pharmaceutical Analysis', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'MP103', name: 'Pharmaceutical Regulatory Affairs', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'MP104', name: 'Pharmaceutical Biotechnology', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'MP105', name: 'Pharmacotherapeutics', internal: 21, external: 66, total: 87, grade: 'B' }
+                        ]
+                    }
+                },
+                '2nd Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'MP201', name: 'Novel Drug Delivery Systems', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'MP202', name: 'Clinical Research', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'MP203', name: 'Pharmacovigilance', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'MP204', name: 'Pharmaceutical Project Management', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'MP205', name: 'Dissertation', internal: 30, external: 70, total: 100, grade: 'A' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'MP201', name: 'Novel Drug Delivery Systems', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'MP202', name: 'Clinical Research', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'MP203', name: 'Pharmacovigilance', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'MP204', name: 'Pharmaceutical Project Management', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'MP205', name: 'Dissertation', internal: 30, external: 70, total: 100, grade: 'A' }
+                        ]
+                    }
+                }
+            },
+            'Pharm.D': {
+                '1st Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD101', name: 'Human Anatomy & Physiology I', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD102', name: 'Pharmaceutics I', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD103', name: 'Pharmaceutical Chemistry I', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD104', name: 'Pharmacology I', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD105', name: 'Pharmacognosy I', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD106', name: 'Biochemistry', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD101', name: 'Human Anatomy & Physiology I', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD102', name: 'Pharmaceutics I', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD103', name: 'Pharmaceutical Chemistry I', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD104', name: 'Pharmacology I', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD105', name: 'Pharmacognosy I', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD106', name: 'Biochemistry', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '2nd Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD201', name: 'Human Anatomy & Physiology II', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD202', name: 'Pharmaceutics II', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD203', name: 'Pharmaceutical Chemistry II', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD204', name: 'Pharmacology II', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD205', name: 'Pharmacognosy II', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD206', name: 'Microbiology', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD201', name: 'Human Anatomy & Physiology II', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD202', name: 'Pharmaceutics II', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD203', name: 'Pharmaceutical Chemistry II', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD204', name: 'Pharmacology II', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD205', name: 'Pharmacognosy II', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD206', name: 'Microbiology', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '3rd Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD301', name: 'Pathophysiology', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD302', name: 'Pharmaceutical Analysis', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD303', name: 'Medicinal Chemistry', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD304', name: 'Pharmacotherapeutics I', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD305', name: 'Hospital Pharmacy', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD306', name: 'Clinical Toxicology', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD301', name: 'Pathophysiology', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD302', name: 'Pharmaceutical Analysis', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD303', name: 'Medicinal Chemistry', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD304', name: 'Pharmacotherapeutics I', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD305', name: 'Hospital Pharmacy', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD306', name: 'Clinical Toxicology', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '4th Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD401', name: 'Clinical Pharmacy', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD402', name: 'Pharmacotherapeutics II', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD403', name: 'Pharmaceutical Biotechnology', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD404', name: 'Clinical Research', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD405', name: 'Community Pharmacy', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD406', name: 'Pharmacoeconomics', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD401', name: 'Clinical Pharmacy', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD402', name: 'Pharmacotherapeutics II', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD403', name: 'Pharmaceutical Biotechnology', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD404', name: 'Clinical Research', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD405', name: 'Community Pharmacy', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD406', name: 'Pharmacoeconomics', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '5th Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD501', name: 'Clinical Pharmacokinetics', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD502', name: 'Drug Information Services', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD503', name: 'Pharmacotherapeutics III', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD504', name: 'Clinical Toxicology II', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD505', name: 'Ward Rounds', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD506', name: 'Clinical Case Presentation', internal: 20, external: 60, total: 80, grade: 'B' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD501', name: 'Clinical Pharmacokinetics', internal: 25, external: 75, total: 100, grade: 'A' },
+                            { code: 'PD502', name: 'Drug Information Services', internal: 24, external: 72, total: 96, grade: 'A' },
+                            { code: 'PD503', name: 'Pharmacotherapeutics III', internal: 23, external: 70, total: 93, grade: 'A' },
+                            { code: 'PD504', name: 'Clinical Toxicology II', internal: 22, external: 68, total: 90, grade: 'A' },
+                            { code: 'PD505', name: 'Ward Rounds', internal: 21, external: 65, total: 86, grade: 'B' },
+                            { code: 'PD506', name: 'Clinical Case Presentation', internal: 20, external: 62, total: 82, grade: 'B' }
+                        ]
+                    }
+                },
+                '6th Year': {
+                    '2023-2024': {
+                        subjects: [
+                            { code: 'PD601', name: 'Internship I', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD602', name: 'Internship II', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD603', name: 'Internship III', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD604', name: 'Internship IV', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD605', name: 'Internship V', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD606', name: 'Project Work', internal: 30, external: 70, total: 100, grade: 'A' }
+                        ]
+                    },
+                    '2024-2025': {
+                        subjects: [
+                            { code: 'PD601', name: 'Internship I', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD602', name: 'Internship II', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD603', name: 'Internship III', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD604', name: 'Internship IV', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD605', name: 'Internship V', internal: 30, external: 70, total: 100, grade: 'A' },
+                            { code: 'PD606', name: 'Project Work', internal: 30, external: 70, total: 100, grade: 'A' }
+                        ]
+                    }
+                }
+            }
+        };
+        
+        // Function to generate a random hall ticket number based on course and year
+        function generateHallTicket(course, year) {
+            const courseCode = course === 'B.Pharm' ? 'BPH' : course === 'M.Pharm' ? 'MPH' : 'PHD';
+            const yearCode = year === '1st Year' ? '01' : 
+                          year === '2nd Year' ? '02' : 
+                          year === '3rd Year' ? '03' : 
+                          year === '4th Year' ? '04' : 
+                          year === '5th Year' ? '05' : '06';
+            const randomNum = Math.floor(Math.random() * 9000) + 1000; // Random 4-digit number
+            return `${courseCode}2024${yearCode}${randomNum}`;
+        }
+        
+        // Function to calculate total marks, percentage, and grade
+        function calculateResult(subjects) {
+            let totalMarks = 0;
+            let maxMarks = subjects.length * 100; // Assuming each subject is out of 100
+            
+            subjects.forEach(subject => {
+                totalMarks += subject.total;
+            });
+            
+            const percentage = (totalMarks / maxMarks) * 100;
+            let sgpa;
+            
+            if (percentage >= 90) sgpa = 9.5 + (percentage - 90) / 20;
+            else if (percentage >= 80) sgpa = 8.5 + (percentage - 80) / 20;
+            else if (percentage >= 70) sgpa = 7.5 + (percentage - 70) / 20;
+            else if (percentage >= 60) sgpa = 6.5 + (percentage - 60) / 20;
+            else sgpa = 6.0;
+            
+            sgpa = Math.min(10, sgpa); // Cap at 10
+            sgpa = Math.round(sgpa * 10) / 10; // Round to 1 decimal place
+            
+            return {
+                totalMarks,
+                percentage: Math.round(percentage * 100) / 100,
+                sgpa,
+                result: percentage >= 50 ? 'PASS' : 'FAIL'
+            };
+        }
+        
+        // Function to generate random marks for subjects
+        function generateRandomMarks(subjects) {
+            return subjects.map(subject => {
+                const internal = Math.floor(Math.random() * 11) + 20; // Random between 20-30
+                const external = Math.floor(Math.random() * 16) + 60; // Random between 60-75
+                const total = internal + external;
+                
+                let grade;
+                if (total >= 90) grade = 'A';
+                else if (total >= 80) grade = 'B';
+                else if (total >= 70) grade = 'C';
+                else if (total >= 60) grade = 'D';
+                else grade = 'F';
+                
+                return {
+                    ...subject,
+                    internal,
+                    external,
+                    total,
+                    grade
+                };
+            });
+        }
+        
+        // Function to get or create student result in localStorage
+        function getOrCreateStudentResult(name, hallTicket, aadhar, course, year, academicYear) {
+            // Check if we have results stored in localStorage
+            let studentResults = JSON.parse(localStorage.getItem('studentResults')) || {};
+            
+            // Create a unique key for the student
+            const studentKey = `${name}_${hallTicket}_${aadhar}`;
+            
+            // If we don't have results for this student, create them
+            if (!studentResults[studentKey]) {
+                studentResults[studentKey] = {};
+            }
+            
+            // If we don't have results for this course, year, and academic year, create them
+            const courseKey = `${course}_${year}_${academicYear}`;
+            if (!studentResults[studentKey][courseKey]) {
+                // Get the subject template for this course and year
+                const subjectTemplate = resultData[course][year][academicYear].subjects;
+                
+                // Generate random marks for each subject
+                const subjectsWithMarks = generateRandomMarks(subjectTemplate);
+                
+                // Calculate the result summary
+                const summary = calculateResult(subjectsWithMarks);
+                
+                // Create the result object
+                studentResults[studentKey][courseKey] = {
+                    studentInfo: {
+                        name,
+                        hallTicket,
+                        resultStatus: summary.result
+                    },
+                    subjects: subjectsWithMarks,
+                    summary
+                };
+                
+                // Save back to localStorage
+                localStorage.setItem('studentResults', JSON.stringify(studentResults));
+            }
+            
+            return studentResults[studentKey][courseKey];
+        }
+        
+        // Function to populate result table
+        function populateResultTable(studentData, course, year, academicYear) {
+            // Update student info
+            document.getElementById('displayName').textContent = studentData.studentInfo.name;
+            document.getElementById('displayHallTicket').textContent = studentData.studentInfo.hallTicket;
+            document.getElementById('displayCourse').textContent = course;
+            document.getElementById('displayYear').textContent = year;
+            document.getElementById('displayAcademicYear').textContent = academicYear;
+            document.getElementById('displayResultStatus').textContent = studentData.studentInfo.resultStatus;
+            
+            // Clear existing table rows
+            const tableBody = document.getElementById('resultTableBody');
+            tableBody.innerHTML = '';
+            
+            // Add new rows for each subject
+            studentData.subjects.forEach(subject => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${subject.code}</td>
+                    <td>${subject.name}</td>
+                    <td>${subject.internal}</td>
+                    <td>${subject.external}</td>
+                    <td>${subject.total}</td>
+                    <td><span class="grade ${subject.grade.toLowerCase()}">${subject.grade}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Update summary
+            document.getElementById('displayTotalMarks').textContent = studentData.summary.totalMarks;
+            document.getElementById('displayPercentage').textContent = studentData.summary.percentage + '%';
+            document.getElementById('displaySGPA').textContent = studentData.summary.sgpa;
+            document.getElementById('displayResult').textContent = studentData.summary.result;
+        }
+        
+        // Handle form submission
+        resultForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('modalStudentName').value;
+            const hallTicket = document.getElementById('modalHallTicket').value;
+            const aadhar = document.getElementById('modalAadhar').value;
+            const course = document.getElementById('selectedCourse').value;
+            const year = document.getElementById('selectedYear').value;
+            const academicYear = document.getElementById('selectedAcademicYear').value;
+            
+            // Get or create student result
+            const studentData = getOrCreateStudentResult(name, hallTicket, aadhar, course, year, academicYear);
+            
+            // Populate result display with the student data
+            populateResultTable(studentData, course, year, academicYear);
+            
+            // Hide modal and show result
+            modal.style.display = 'none';
+            resultDisplay.classList.add('active');
+            
+            // Scroll to result display
+            resultDisplay.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form
+            resultForm.reset();
+        });
+    </script>
+</body>
+</html>
